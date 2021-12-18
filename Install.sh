@@ -13,108 +13,108 @@ displayErr() {
    exit 1;
 }
 
-￼    output " "
-￼    output "Make sure you double check before hitting enter! Only one shot at these!"
-￼    output " "
-￼    read -e -p "Enter time zone (e.g. America/New_York) : " TIME
-￼    read -e -p "Server name (no http:// or www. just example.com) : " server_name
-￼    read -e -p "Are you using a subdomain (pool.example.com?) [y/N] : " sub_domain
-￼    read -e -p "Enter support email (e.g. admin@example.com) : " EMAIL
-￼    read -e -p "Set stratum to AutoExchange? i.e. mine any coinf with BTC address? [y/N] : " BTC
-￼    read -e -p "Please enter a new location for /site/adminRights this is to customize the admin entrance url (e.g. myAdminpanel) : " admin_panel
-￼    read -e -p "Enter your Public IP for admin access (http://www.whatsmyip.org/) : " Public
-￼    read -e -p "Install Fail2ban? [Y/n] : " install_fail2ban
-￼    read -e -p "Install UFW and configure ports? [Y/n] : " UFW
-￼    read -e -p "Install LetsEncrypt SSL? IMPORTANT! You MUST have your domain name pointed to this server prior to running the script!! [Y/n]: " ssl_install
-￼
-￼    output " "
-￼    output "Updating system and installing required packages."
-￼    output " "
-￼    sleep 3
-￼
-￼
-￼    # update package and upgrade Ubuntu
-￼    sudo apt-get -y update 
-￼    sudo apt-get -y upgrade
-￼    sudo apt-get -y autoremove
-￼
-￼    output " "
-￼    output "Switching to Aptitude"
-￼    output " "
-￼    sleep 3
-￼
-￼    sudo apt-get -y install aptitude
-￼
-￼    output " "
-￼    output "Installing Nginx server."
-￼    output " "
-￼    sleep 3
-￼
-￼    sudo aptitude -y install nginx
-￼    sudo rm /etc/nginx/sites-enabled/default
-￼    sudo service nginx start
-￼    sudo service cron start
-￼
-￼
-￼    #Making Nginx a bit hard
-￼    echo 'map $http_user_agent $blockedagent {
-￼default         0;
-￼~*malicious     1;
-￼~*bot           1;
-￼~*backdoor      1;
-￼~*crawler       1;
-￼~*bandit        1;
-￼}
-￼' | sudo -E tee /etc/nginx/blockuseragents.rules >/dev/null 2>&1
-￼
-￼    output " "
-￼    output "Installing Mariadb Server."
-￼    output " "
-￼    sleep 3
-￼
-￼
-￼    # create random password
-￼    rootpasswd=$(openssl rand -base64 12)
-￼    export DEBIAN_FRONTEND="noninteractive"
-￼    sudo aptitude -y install mariadb-server
-￼
-￼    output " "
-￼    output "Installing php7.x and other needed files"
-￼    output " "
-￼    sleep 3
-￼
-￼    sudo aptitude -y install php7.0-fpm
-￼    sudo aptitude -y install php7.0-opcache php7.0-fpm php7.0 php7.0-common php7.0-gd php7.0-mysql php7.0-imap php7.0-cli php7.0-cgi php-pear php-auth php7.0-mcrypt mcrypt imagemagick libruby php7.0-curl php7.0-intl php7.0-pspell php7.0-recode php7.0-sqlite3 php7.0-tidy php7.0-xmlrpc php7.0-xsl memcached php-memcache php-imagick php-gettext php7.0-zip php7.0-mbstring
-￼    sudo phpenmod mcrypt
-￼    sudo phpenmod mbstring
-￼    sudo aptitude -y install libgmp3-dev
-￼    sudo aptitude -y install libmysqlclient-dev
-￼    sudo aptitude -y install libcurl4-gnutls-dev
-￼    sudo aptitude -y install libkrb5-dev
-￼    sudo aptitude -y install libldap2-dev
-￼    sudo aptitude -y install libidn11-dev
-￼    sudo aptitude -y install gnutls-dev
-￼    sudo aptitude -y install librtmp-dev
-￼    sudo aptitude -y install sendmail
-￼    sudo aptitude -y install mutt
-￼    sudo aptitude -y install git screen
-￼    sudo aptitude -y install pwgen -y
-￼
-￼
-￼    #Installing Package to compile crypto currency
-￼    output " "
-￼    output "Installing Package to compile crypto currency"
-￼    output " "
-￼    sleep 3
-￼
-￼    sudo aptitude -y install software-properties-common build-essential
-￼    sudo aptitude -y install libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils git cmake libboost-all-dev zlib1g-dev libz-dev libseccomp-dev libcap-dev libminiupnpc-dev
-￼    sudo aptitude -y install libminiupnpc10 libzmq5
-￼    sudo aptitude -y install libcanberra-gtk-module libqrencode-dev libzmq3-dev
-￼    sudo aptitude -y install libqt5gui5 libqt5core5a libqt5webkit5-dev libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
-￼    sudo add-apt-repository -y ppa:bitcoin/bitcoin
-￼    sudo apt-get -y update
-￼    sudo apt-get install -y libdb4.8-dev libdb4.8++-dev libdb5.3 libdb5.3++
+    output " "
+    output "Make sure you double check before hitting enter! Only one shot at these!"
+    output " "
+    read -e -p "Enter time zone (e.g. America/New_York) : " TIME
+    read -e -p "Server name (no http:// or www. just example.com) : " server_name
+    read -e -p "Are you using a subdomain (pool.example.com?) [y/N] : " sub_domain
+    read -e -p "Enter support email (e.g. admin@example.com) : " EMAIL
+    read -e -p "Set stratum to AutoExchange? i.e. mine any coinf with BTC address? [y/N] : " BTC
+    read -e -p "Please enter a new location for /site/adminRights this is to customize the admin entrance url (e.g. myAdminpanel) : " admin_panel
+    read -e -p "Enter your Public IP for admin access (http://www.whatsmyip.org/) : " Public
+    read -e -p "Install Fail2ban? [Y/n] : " install_fail2ban
+    read -e -p "Install UFW and configure ports? [Y/n] : " UFW
+    read -e -p "Install LetsEncrypt SSL? IMPORTANT! You MUST have your domain name pointed to this server prior to running the script!! [Y/n]: " ssl_install
+
+    output " "
+    output "Updating system and installing required packages."
+    output " "
+    sleep 3
+
+
+    # update package and upgrade Ubuntu
+    sudo apt-get -y update 
+    sudo apt-get -y upgrade
+    sudo apt-get -y autoremove
+
+    output " "
+    output "Switching to Aptitude"
+    output " "
+    sleep 3
+
+    sudo apt-get -y install aptitude
+
+    output " "
+    output "Installing Nginx server."
+    output " "
+    sleep 3
+
+    sudo aptitude -y install nginx
+    sudo rm /etc/nginx/sites-enabled/default
+    sudo service nginx start
+    sudo service cron start
+
+
+    #Making Nginx a bit hard
+    echo 'map $http_user_agent $blockedagent {
+default         0;
+~*malicious     1;
+~*bot           1;
+~*backdoor      1;
+~*crawler       1;
+~*bandit        1;
+}
+' | sudo -E tee /etc/nginx/blockuseragents.rules >/dev/null 2>&1
+
+    output " "
+    output "Installing Mariadb Server."
+    output " "
+    sleep 3
+
+
+    # create random password
+    rootpasswd=$(openssl rand -base64 12)
+    export DEBIAN_FRONTEND="noninteractive"
+    sudo aptitude -y install mariadb-server
+
+    output " "
+    output "Installing php7.x and other needed files"
+    output " "
+    sleep 3
+
+    sudo aptitude -y install php7.2-fpm
+    sudo aptitude -y install php7.2-opcache php7.2-fpm php7.2 php7.2-common php7.2-gd php7.2-mysql php7.2-imap php7.2-cli php7.2-cgi php-pear php-auth php7.2-mcrypt mcrypt imagemagick libruby php7.2-curl php7.2-intl php7.2-pspell php7.2-recode php7.2-sqlite3 php7.2-tidy php7.2-xmlrpc php7.2-xsl memcached php-memcache php-imagick php-gettext php7.2-zip php7.2-mbstring
+    sudo phpenmod mcrypt
+    sudo phpenmod mbstring
+    sudo aptitude -y install libgmp3-dev
+    sudo aptitude -y install libmysqlclient-dev
+    sudo aptitude -y install libcurl4-gnutls-dev
+    sudo aptitude -y install libkrb5-dev
+    sudo aptitude -y install libldap2-dev
+    sudo aptitude -y install libidn11-dev
+    sudo aptitude -y install gnutls-dev
+    sudo aptitude -y install librtmp-dev
+    sudo aptitude -y install sendmail
+    sudo aptitude -y install mutt
+    sudo aptitude -y install git screen
+    sudo aptitude -y install pwgen -y
+
+
+    #Installing Package to compile crypto currency
+    output " "
+    output "Installing Package to compile crypto currency"
+    output " "
+    sleep 3
+
+    sudo aptitude -y install software-properties-common build-essential
+    sudo aptitude -y install libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils git cmake libboost-all-dev zlib1g-dev libz-dev libseccomp-dev libcap-dev libminiupnpc-dev
+    sudo aptitude -y install libminiupnpc10 libzmq5
+    sudo aptitude -y install libcanberra-gtk-module libqrencode-dev libzmq3-dev
+    sudo aptitude -y install libqt5gui5 libqt5core5a libqt5webkit5-dev libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
+    sudo add-apt-repository -y ppa:bitcoin/bitcoin
+    sudo apt-get -y update
+    sudo apt-get install -y libdb4.8-dev libdb4.8++-dev libdb5.3 libdb5.3++
 ￼
 ￼
 ￼    #Generating Random Passwords
