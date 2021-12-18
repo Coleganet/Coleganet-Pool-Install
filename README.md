@@ -17,9 +17,7 @@ We provide altcoin cryptocurrencies mining pool installation and creation servic
 
 How Does it Work?
 ----------
-You will be required to get a VPS or cloud service like AWS instance etc or a server that can be obtained from several hosts online or if you have your very own server at your premises that can also be used to setup pool. For detailed minimum specifications and operating system that is usually Ubuntu/Linux, you need to contact us as it depends on several factors those can only be determined after discussing your mining needs. Most of our clients would get VPS from Digital Ocean, Vultr, Hetzner Cloud, Linode, Amazon AWS etc.
-
-We can work remotely using **TeamViewer** or **AnyDesk** softwares, therefore, you do not need to provide us direct access to server. We can perform all  tasks in front of you. To get a price quote please contact us using above given contact details, we can discuss in real time. Or if you are more comfortable providing us direct server/VPS credentials we can do that as well and directly setup pool once ready you can change password and take over the server.
+You will be required to get a VPS or cloud service like AWS instance etc or a server that can be obtained from several hosts online or if you have your very own server at your premises that can also be used to setup pool. For detailed minimum specifications and operating system that is usually Ubuntu/Linux,
 
 
 
