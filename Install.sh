@@ -716,6 +716,7 @@ sudo chmod +x /var/stratum/config/run.sh
     output " "
     output "Now for the database fun!"
     output " "
+    systemctl start mysql
     sleep 3
 
     # create database
@@ -928,3 +929,13 @@ sudo chmod -R 775 /var/web/serverconfig.php
 sudo mv $HOME/yiimp/ $HOME/yiimp-install-only-do-not-run-commands-from-this-folder
 sudo service nginx restart
 sudo service php7.2-fpm reload
+output " "
+output " "
+output " "
+output " "
+output "Whew that was fun, just some reminders. Your mysql information is saved in ~/.my.cnf. this installer did not directly install anything required to build coins."
+output " "
+output "Please make sure to change your wallet addresses in the /var/web/serverconfig.php file."
+output " "
+output "Please make sure to add your public and private keys."
+output " "
