@@ -1,5 +1,18 @@
 #!/bin/bash
-##
+###############################################################################
+# Author:   coleganet
+# 
+# Web:      www.coleganet.com
+#
+# Program:
+#   Install yiimp on Ubuntu 18.04 runnin
+#        Nginx, MariaDB, and php7.x
+# BTC Donation:1K5qZcCT8ZGzLfbR75GWJNXo3MViaZrvq7
+# 
+################################################################################
+
+
+
 output() {
    printf "\E[0;33;40m"
    echo $1
@@ -84,8 +97,18 @@ default         0;
     sleep 3
 
     sudo aptitude -y install php7.2-fpm
-    sudo aptitude -y install php7.2-opcache php7.2-fpm php7.2 php7.2-common php7.2-gd php7.2-mysql php7.2-imap php7.2-cli php7.2-cgi php-pear php-auth php7.2-mcrypt mcrypt imagemagick libruby php7.2-curl php7.2-intl php7.2-pspell php7.2-recode php7.2-sqlite3 php7.2-tidy php7.2-xmlrpc php7.2-xsl memcached php-memcache php-imagick php-gettext php7.2-zip php7.2-mbstring
+    sudo aptitude -y install php7.2-opcache php7.2-fpm php7.2 php7.2-common php7.2-gd php7.2-mysql php7.2-imap php7.2-cli php7.2-cgi php-pear php-auth php7.2-mcrypt mcrypt imagemagick libruby php7.2-curl php7.2-intl php7.2-pspell php7.2-recode php7.2-sqlite3 php7.2-tidy php7.2-xmlrpc php7.2-xsl memcached php-memcache php-imagick php-gettext php7.2-zip php7.2-mbstring php7.2-dev php7.2-dev
+
+    sudo apt-get -y install libmcrypt-dev
     sudo phpenmod mcrypt
+    sudo pecl channel-update pecl.php.net
+    sudo pecl install mcrypt-1.0.3
+sudo bash -c "echo extension=/usr/lib/php/20190902/mcrypt.so > /etc/php/7.2/cli/conf.d/mcrypt.ini"
+sudo bash -c "echo extension=/usr/lib/php/20190902/mcrypt.so > /etc/php/7.2/fpm/conf.d/mcrypt.ini"
+php -i | grep "mcrypt"
+
+sudo -- bash -c 'echo "some data" >>/etc/php/7.2/cli/php.ini'
+sudo -- bash -c 'echo "some data" >>/etc/php/7.2/fpm/php.ini'
     sudo phpenmod mbstring
     sudo aptitude -y install libgmp3-dev
     sudo aptitude -y install libmysqlclient-dev
@@ -159,60 +182,60 @@ default         0;
     sudo ufw allow ssh
     sudo ufw allow http
     sudo ufw allow https
-	sudo ufw allow 3333/tcp
-	sudo ufw allow 3339/tcp
-	sudo ufw allow 3334/tcp
-	sudo ufw allow 3433/tcp
-	sudo ufw allow 3555/tcp
-	sudo ufw allow 3556/tcp
-	sudo ufw allow 3573/tcp
-	sudo ufw allow 3535/tcp
-	sudo ufw allow 3533/tcp
-	sudo ufw allow 3553/tcp
-	sudo ufw allow 3633/tcp
-	sudo ufw allow 3733/tcp
-	sudo ufw allow 3636/tcp
-	sudo ufw allow 3737/tcp
-	sudo ufw allow 3739/tcp
-	sudo ufw allow 3747/tcp
-	sudo ufw allow 3833/tcp
-	sudo ufw allow 3933/tcp
-	sudo ufw allow 4033/tcp
-	sudo ufw allow 4133/tcp
-	sudo ufw allow 4233/tcp
-	sudo ufw allow 4234/tcp
-	sudo ufw allow 4333/tcp
-	sudo ufw allow 4433/tcp
-	sudo ufw allow 4533/tcp
-	sudo ufw allow 4553/tcp
-	sudo ufw allow 4633/tcp
-	sudo ufw allow 4733/tcp
-	sudo ufw allow 4833/tcp
-	sudo ufw allow 4933/tcp
-	sudo ufw allow 5033/tcp
-	sudo ufw allow 5133/tcp
-	sudo ufw allow 5233/tcp
-	sudo ufw allow 5333/tcp
-	sudo ufw allow 5433/tcp
-	sudo ufw allow 5533/tcp
-	sudo ufw allow 5733/tcp
-	sudo ufw allow 5743/tcp
-	sudo ufw allow 3252/tcp
-	sudo ufw allow 5755/tcp
-	sudo ufw allow 5766/tcp
-	sudo ufw allow 5833/tcp
-	sudo ufw allow 5933/tcp
-	sudo ufw allow 6033/tcp
-	sudo ufw allow 5034/tcp
-	sudo ufw allow 6133/tcp
-	sudo ufw allow 6233/tcp
-	sudo ufw allow 6333/tcp
-	sudo ufw allow 6433/tcp
-	sudo ufw allow 7433/tcp
-	sudo ufw allow 8333/tcp
-	sudo ufw allow 8463/tcp
-	sudo ufw allow 8433/tcp
-	sudo ufw allow 8533/tcp
+   sudo ufw allow 3333/tcp
+   sudo ufw allow 3339/tcp
+   sudo ufw allow 3334/tcp
+   sudo ufw allow 3433/tcp
+   sudo ufw allow 3555/tcp
+   sudo ufw allow 3556/tcp
+   sudo ufw allow 3573/tcp
+   sudo ufw allow 3535/tcp
+   sudo ufw allow 3533/tcp
+   sudo ufw allow 3553/tcp
+   sudo ufw allow 3633/tcp
+   sudo ufw allow 3733/tcp
+   sudo ufw allow 3636/tcp
+   sudo ufw allow 3737/tcp
+   sudo ufw allow 3739/tcp
+   sudo ufw allow 3747/tcp
+   sudo ufw allow 3833/tcp
+   sudo ufw allow 3933/tcp
+   sudo ufw allow 4033/tcp
+   sudo ufw allow 4133/tcp
+   sudo ufw allow 4233/tcp
+   sudo ufw allow 4234/tcp
+   sudo ufw allow 4333/tcp
+   sudo ufw allow 4433/tcp
+   sudo ufw allow 4533/tcp
+   sudo ufw allow 4553/tcp
+   sudo ufw allow 4633/tcp
+   sudo ufw allow 4733/tcp
+   sudo ufw allow 4833/tcp
+   sudo ufw allow 4933/tcp
+   sudo ufw allow 5033/tcp
+   sudo ufw allow 5133/tcp
+   sudo ufw allow 5233/tcp
+   sudo ufw allow 5333/tcp
+   sudo ufw allow 5433/tcp
+   sudo ufw allow 5533/tcp
+   sudo ufw allow 5733/tcp
+   sudo ufw allow 5743/tcp
+   sudo ufw allow 3252/tcp
+   sudo ufw allow 5755/tcp
+   sudo ufw allow 5766/tcp
+   sudo ufw allow 5833/tcp
+   sudo ufw allow 5933/tcp
+   sudo ufw allow 6033/tcp
+   sudo ufw allow 5034/tcp
+   sudo ufw allow 6133/tcp
+   sudo ufw allow 6233/tcp
+   sudo ufw allow 6333/tcp
+   sudo ufw allow 6433/tcp
+   sudo ufw allow 7433/tcp
+   sudo ufw allow 8333/tcp
+   sudo ufw allow 8463/tcp
+   sudo ufw allow 8433/tcp
+   sudo ufw allow 8533/tcp
     sudo ufw --force enable    
     fi
 
@@ -270,7 +293,7 @@ default         0;
     sed -i "s|ROOTDIR=/data/yiimp|ROOTDIR=/var|g" /bin/yiimp
     #fixing run.sh
     sudo rm -r /var/stratum/config/run.sh
-	echo '
+   echo '
 #!/bin/bash
 ulimit -n 10240
 ulimit -u 10240
@@ -310,8 +333,8 @@ sudo chmod +x /var/stratum/config/run.sh
     output " "
     if [[ ("$sub_domain" == "y" || "$sub_domain" == "Y") ]]; then
     echo 'include /etc/nginx/blockuseragents.rules;
-	server {
-	if ($blockedagent) {
+   server {
+   if ($blockedagent) {
                 return 403;
         }
         if ($request_method !~ ^(GET|HEAD|POST)$) {
@@ -338,7 +361,7 @@ sudo chmod +x /var/stratum/config/run.sh
         error_log  /var/log/nginx/'"${server_name}"'.app-error.log error;
     
         # allow larger file uploads and longer script runtimes
- 	client_body_buffer_size  50k;
+   client_body_buffer_size  50k;
         client_header_buffer_size 50k;
         client_max_body_size 50k;
         large_client_header_buffers 2 50k;
@@ -356,33 +379,33 @@ sudo chmod +x /var/stratum/config/run.sh
             fastcgi_connect_timeout 300;
             fastcgi_send_timeout 300;
             fastcgi_read_timeout 300;
-	    try_files $uri $uri/ =404;
+       try_files $uri $uri/ =404;
         }
-		location ~ \.php$ {
-        	return 404;
+      location ~ \.php$ {
+         return 404;
         }
-		location ~ \.sh {
-		return 404;
+      location ~ \.sh {
+      return 404;
         }
-		location ~ /\.ht {
-		deny all;
+      location ~ /\.ht {
+      deny all;
         }
-		location ~ /.well-known {
-		allow all;
+      location ~ /.well-known {
+      allow all;
         }
-		location /phpmyadmin {
-  		root /usr/share/;
-  		index index.php;
-  		try_files $uri $uri/ =404;
-  		location ~ ^/phpmyadmin/(doc|sql|setup)/ {
-    		deny all;
-  	}
-  		location ~ /phpmyadmin/(.+\.php)$ {
-    		fastcgi_pass unix:/run/php/php7.2-fpm.sock;
-    		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    		include fastcgi_params;
-    		include snippets/fastcgi-php.conf;
-  	}
+      location /phpmyadmin {
+      root /usr/share/;
+      index index.php;
+      try_files $uri $uri/ =404;
+      location ~ ^/phpmyadmin/(doc|sql|setup)/ {
+         deny all;
+   }
+      location ~ /phpmyadmin/(.+\.php)$ {
+         fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+         include fastcgi_params;
+         include snippets/fastcgi-php.conf;
+   }
  }
  }
 ' | sudo -E tee /etc/nginx/sites-available/$server_name.conf >/dev/null 2>&1
@@ -401,9 +424,9 @@ sudo chmod +x /var/stratum/config/run.sh
     sudo rm /etc/nginx/sites-available/$server_name.conf
     sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
     # I am SSL Man!
-	echo 'include /etc/nginx/blockuseragents.rules;
-	server {
-	if ($blockedagent) {
+   echo 'include /etc/nginx/blockuseragents.rules;
+   server {
+   if ($blockedagent) {
                 return 403;
         }
         if ($request_method !~ ^(GET|HEAD|POST)$) {
@@ -412,12 +435,12 @@ sudo chmod +x /var/stratum/config/run.sh
         listen 80;
         listen [::]:80;
         server_name '"${server_name}"';
-    	# enforce https
+      # enforce https
         return 301 https://$server_name$request_uri;
-	}
-	
-	server {
-	if ($blockedagent) {
+   }
+   
+   server {
+   if ($blockedagent) {
                 return 403;
         }
         if ($request_method !~ ^(GET|HEAD|POST)$) {
@@ -434,7 +457,7 @@ sudo chmod +x /var/stratum/config/run.sh
             error_log  /var/log/nginx/'"${server_name}"'.app-error.log error;
         
             # allow larger file uploads and longer script runtimes
- 	client_body_buffer_size  50k;
+   client_body_buffer_size  50k;
         client_header_buffer_size 50k;
         client_max_body_size 50k;
         large_client_header_buffers 2 50k;
@@ -477,42 +500,42 @@ sudo chmod +x /var/stratum/config/run.sh
                 fastcgi_send_timeout 300;
                 fastcgi_read_timeout 300;
                 include /etc/nginx/fastcgi_params;
-	    	try_files $uri $uri/ =404;
+         try_files $uri $uri/ =404;
         }
-		location ~ \.php$ {
-        	return 404;
+      location ~ \.php$ {
+         return 404;
         }
-		location ~ \.sh {
-		return 404;
+      location ~ \.sh {
+      return 404;
         }
         
             location ~ /\.ht {
                 deny all;
             }
-	    location /phpmyadmin {
-  		root /usr/share/;
-  		index index.php;
-  		try_files $uri $uri/ =404;
-  		location ~ ^/phpmyadmin/(doc|sql|setup)/ {
-    		deny all;
-  	}
-  		location ~ /phpmyadmin/(.+\.php)$ {
-    		fastcgi_pass unix:/run/php/php7.2-fpm.sock;
-    		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    		include fastcgi_params;
-    		include snippets/fastcgi-php.conf;
-  	}
+       location /phpmyadmin {
+      root /usr/share/;
+      index index.php;
+      try_files $uri $uri/ =404;
+      location ~ ^/phpmyadmin/(doc|sql|setup)/ {
+         deny all;
+   }
+      location ~ /phpmyadmin/(.+\.php)$ {
+         fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+         include fastcgi_params;
+         include snippets/fastcgi-php.conf;
+   }
  }
  }
         
 ' | sudo -E tee /etc/nginx/sites-available/$server_name.conf >/dev/null 2>&1
-	fi
-	sudo service nginx restart
-	sudo service php7.2-fpm reload
-	else
-	echo 'include /etc/nginx/blockuseragents.rules;
-	server {
-	if ($blockedagent) {
+   fi
+   sudo service nginx restart
+   sudo service php7.2-fpm reload
+   else
+   echo 'include /etc/nginx/blockuseragents.rules;
+   server {
+   if ($blockedagent) {
                 return 403;
         }
         if ($request_method !~ ^(GET|HEAD|POST)$) {
@@ -539,7 +562,7 @@ sudo chmod +x /var/stratum/config/run.sh
         error_log  /var/log/nginx/'"${server_name}"'.app-error.log error;
     
         # allow larger file uploads and longer script runtimes
- 	client_body_buffer_size  50k;
+   client_body_buffer_size  50k;
         client_header_buffer_size 50k;
         client_max_body_size 50k;
         large_client_header_buffers 2 50k;
@@ -557,33 +580,33 @@ sudo chmod +x /var/stratum/config/run.sh
             fastcgi_connect_timeout 300;
             fastcgi_send_timeout 300;
             fastcgi_read_timeout 300;
-	    try_files $uri $uri/ =404;
+       try_files $uri $uri/ =404;
         }
-		location ~ \.php$ {
-        	return 404;
+      location ~ \.php$ {
+         return 404;
         }
-		location ~ \.sh {
-		return 404;
+      location ~ \.sh {
+      return 404;
         }
-		location ~ /\.ht {
-		deny all;
+      location ~ /\.ht {
+      deny all;
         }
-		location ~ /.well-known {
-		allow all;
+      location ~ /.well-known {
+      allow all;
         }
-		location /phpmyadmin {
-  		root /usr/share/;
-  		index index.php;
-  		try_files $uri $uri/ =404;
-  		location ~ ^/phpmyadmin/(doc|sql|setup)/ {
-    		deny all;
-  	}
-  		location ~ /phpmyadmin/(.+\.php)$ {
-    		fastcgi_pass unix:/run/php/php7.2-fpm.sock;
-    		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    		include fastcgi_params;
-    		include snippets/fastcgi-php.conf;
-  	}
+      location /phpmyadmin {
+      root /usr/share/;
+      index index.php;
+      try_files $uri $uri/ =404;
+      location ~ ^/phpmyadmin/(doc|sql|setup)/ {
+         deny all;
+   }
+      location ~ /phpmyadmin/(.+\.php)$ {
+         fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+         include fastcgi_params;
+         include snippets/fastcgi-php.conf;
+   }
  }
  }
 ' | sudo -E tee /etc/nginx/sites-available/$server_name.conf >/dev/null 2>&1
@@ -603,9 +626,9 @@ sudo chmod +x /var/stratum/config/run.sh
     sudo rm /etc/nginx/sites-available/$server_name.conf
     sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
     # I am SSL Man!
-	echo 'include /etc/nginx/blockuseragents.rules;
-	server {
-	if ($blockedagent) {
+   echo 'include /etc/nginx/blockuseragents.rules;
+   server {
+   if ($blockedagent) {
                 return 403;
         }
         if ($request_method !~ ^(GET|HEAD|POST)$) {
@@ -614,12 +637,12 @@ sudo chmod +x /var/stratum/config/run.sh
         listen 80;
         listen [::]:80;
         server_name '"${server_name}"';
-    	# enforce https
+      # enforce https
         return 301 https://$server_name$request_uri;
-	}
-	
-	server {
-	if ($blockedagent) {
+   }
+   
+   server {
+   if ($blockedagent) {
                 return 403;
         }
         if ($request_method !~ ^(GET|HEAD|POST)$) {
@@ -636,7 +659,7 @@ sudo chmod +x /var/stratum/config/run.sh
             error_log  /var/log/nginx/'"${server_name}"'.app-error.log error;
         
             # allow larger file uploads and longer script runtimes
- 	client_body_buffer_size  50k;
+   client_body_buffer_size  50k;
         client_header_buffer_size 50k;
         client_max_body_size 50k;
         large_client_header_buffers 2 50k;
@@ -679,39 +702,39 @@ sudo chmod +x /var/stratum/config/run.sh
                 fastcgi_send_timeout 300;
                 fastcgi_read_timeout 300;
                 include /etc/nginx/fastcgi_params;
-	    	try_files $uri $uri/ =404;
+         try_files $uri $uri/ =404;
         }
-		location ~ \.php$ {
-        	return 404;
+      location ~ \.php$ {
+         return 404;
         }
-		location ~ \.sh {
-		return 404;
+      location ~ \.sh {
+      return 404;
         }
         
             location ~ /\.ht {
                 deny all;
             }
-	    location /phpmyadmin {
-  		root /usr/share/;
-  		index index.php;
-  		try_files $uri $uri/ =404;
-  		location ~ ^/phpmyadmin/(doc|sql|setup)/ {
-    		deny all;
-  	}
-  		location ~ /phpmyadmin/(.+\.php)$ {
-    		fastcgi_pass unix:/run/php/php7.2-fpm.sock;
-    		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    		include fastcgi_params;
-    		include snippets/fastcgi-php.conf;
-  	}
+       location /phpmyadmin {
+      root /usr/share/;
+      index index.php;
+      try_files $uri $uri/ =404;
+      location ~ ^/phpmyadmin/(doc|sql|setup)/ {
+         deny all;
+   }
+      location ~ /phpmyadmin/(.+\.php)$ {
+         fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+         include fastcgi_params;
+         include snippets/fastcgi-php.conf;
+   }
  }
  }
         
 ' | sudo -E tee /etc/nginx/sites-available/$server_name.conf >/dev/null 2>&1
-	fi
-	sudo service nginx restart
-	sudo service php7.2-fpm reload
-	fi
+   fi
+   sudo service nginx restart
+   sudo service php7.2-fpm reload
+   fi
 
     output " "
     output "Now for the database fun!"
@@ -874,7 +897,7 @@ define('"'"'NICEHASH_API_ID'"'"','"'"' '"'"');
 define('"'"'NICEHASH_DEPOSIT'"'"','"'"' '"'"');
 define('"'"'NICEHASH_DEPOSIT_AMOUNT'"'"','"'"'0.01'"'"');
 $cold_wallet_table = array(
-	'"'"' '"'"' => 0.10,
+   '"'"' '"'"' => 0.10,
 );
 // Sample fixed pool fees
 $configFixedPoolFees = array(
@@ -884,11 +907,11 @@ $configFixedPoolFees = array(
 );
 // Sample custom stratum ports
 $configCustomPorts = array(
-//	'"'"'x11'"'"' => 7000,
+// '"'"'x11'"'"' => 7000,
 );
 // mBTC Coefs per algo (default is 1.0)
 $configAlgoNormCoef = array(
-//	'"'"'x11'"'"' => 5.0,
+// '"'"'x11'"'"' => 5.0,
 );
 ' | sudo -E tee /var/web/serverconfig.php >/dev/null 2>&1
 
