@@ -103,12 +103,12 @@ default         0;
     sudo phpenmod mcrypt
     sudo pecl channel-update pecl.php.net
     sudo pecl install mcrypt-1.0.3
-sudo bash -c "echo extension=/usr/lib/php/20190902/mcrypt.so > /etc/php/7.2/cli/conf.d/mcrypt.ini"
-sudo bash -c "echo extension=/usr/lib/php/20190902/mcrypt.so > /etc/php/7.2/fpm/conf.d/mcrypt.ini"
+sudo bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.2/cli/conf.d/mcrypt.ini"
+sudo bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.2/fpm/conf.d/mcrypt.ini"
 php -i | grep "mcrypt"
 
-sudo -- bash -c 'echo "some data" >>/etc/php/7.2/cli/php.ini'
-sudo -- bash -c 'echo "some data" >>/etc/php/7.2/fpm/php.ini'
+sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/cli/php.ini'
+sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     sudo phpenmod mbstring
     sudo aptitude -y install libgmp3-dev
     sudo aptitude -y install libmysqlclient-dev
