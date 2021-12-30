@@ -954,8 +954,10 @@ sudo mv $HOME/yiimp/ $HOME/yiimp-install-only-do-not-run-commands-from-this-fold
 sudo service nginx restart
 sudo service php7.2-fpm reload
 output " "
-output " "
-output " "
+output "Update Memcached flux use every time you make template changes "
+sed -i -e '$a## bash shortcut Mencached Flush ##' ~/.bashrc
+sed -i -e '$aalias flush_mem_cache_server="echo 'flush_all' | netcat 127.0.0.1 11211"' ~/.bashrc
+output "Use the command mflush for clean memcached "
 output " "
 output "Whew that was fun, just some reminders. Your mysql information is saved in ~/.my.cnf. this installer did not directly install anything required to build coins."
 output "Add your exchange API public and secret keys in these two separated files:"
