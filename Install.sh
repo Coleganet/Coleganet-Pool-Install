@@ -269,6 +269,7 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     sudo make
     cd $HOME/PoolColeganet/stratum/iniparser
+    apt-get install libmysqlclient-dev
     sudo make
     cd $HOME/PoolColeganet/stratum
     if [[ ("$BTC" == "y" || "$BTC" == "Y") ]]; then
