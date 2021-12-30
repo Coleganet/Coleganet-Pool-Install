@@ -5,7 +5,7 @@
 # Web:      www.coleganet.com
 #
 # Program:
-#   Install yiimp on Ubuntu 18.04 runnin
+#   Install Coleganet Pool on Ubuntu 18.04 runnin
 #        Nginx, MariaDB, and php7.x
 # BTC Donation:1K5qZcCT8ZGzLfbR75GWJNXo3MViaZrvq7
 # 
@@ -254,9 +254,9 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     sudo aptitude -y install phpmyadmin
 
     output " "
-    output " Installing yiimp"
+    output " Installing Coleganet Pool"
     output " "
-    output "Grabbing yiimp fron Github, building files and setting file structure."
+    output "Grabbing Coleganet from Github, building files and setting file structure."
     output " "
     sleep 3
 
@@ -264,30 +264,30 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     #Generating Random Password for stratum
     blckntifypass=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
     cd ~
-    git clone https://github.com/tpruvot/yiimp.git
-    cd $HOME/yiimp/blocknotify
+    git clone https://github.com/Coleganet/PoolColeganet.git
+    cd $HOME/PoolColeganet/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     sudo make
-    cd $HOME/yiimp/stratum/iniparser
+    cd $HOME/PoolColeganet/stratum/iniparser
     sudo make
-    cd $HOME/yiimp/stratum
+    cd $HOME/PoolColeganet/stratum
     if [[ ("$BTC" == "y" || "$BTC" == "Y") ]]; then
-    sudo sed -i 's/CFLAGS += -DNO_EXCHANGE/#CFLAGS += -DNO_EXCHANGE/' $HOME/yiimp/stratum/Makefile
+    sudo sed -i 's/CFLAGS += -DNO_EXCHANGE/#CFLAGS += -DNO_EXCHANGE/' $HOME/PoolColeganet/stratum/Makefile
     sudo make
     fi
     sudo make
-    cd $HOME/yiimp
-    sudo sed -i 's/AdminRights/'$admin_panel'/' $HOME/yiimp/web/yaamp/modules/site/SiteController.php
-    sudo cp -r $HOME/yiimp/web /var/
+    cd $HOME/PoolColeganet
+    sudo sed -i 's/MasterNode/'$admin_panel'/' $HOME/PoolColeganet/web/yaamp/modules/site/SiteController.php
+    sudo cp -r $HOME/PoolColeganet/web /var/
     sudo mkdir -p /var/stratum
-    cd $HOME/yiimp/stratum
+    cd $HOME/PoolColeganet/stratum
     sudo cp -a config.sample/. /var/stratum/config
     sudo cp -r stratum /var/stratum
     sudo cp -r run.sh /var/stratum
-    cd $HOME/yiimp
-    sudo cp -r $HOME/yiimp/bin/. /bin/
-    sudo cp -r $HOME/yiimp/blocknotify/blocknotify /usr/bin/
-    sudo cp -r $HOME/yiimp/blocknotify/blocknotify /var/stratum/
+    cd $HOME/PoolColeganet
+    sudo cp -r $HOME/PoolColeganet/bin/. /bin/
+    sudo cp -r $HOME/PoolColeganet/blocknotify/blocknotify /usr/bin/
+    sudo cp -r $HOME/PoolColeganet/blocknotify/blocknotify /var/stratum/
     sudo mkdir -p /etc/yiimp
     sudo mkdir -p /$HOME/backup/
     #fixing yiimp
@@ -810,7 +810,7 @@ define('"'"'EXCH_YOBIT_SECRET'"'"', '"'"''"'"');
     sleep 3
 
     cd ~
-    cd yiimp/sql
+    cd PoolColeganet/sql
 
     # import sql dump
     sudo zcat 2016-04-03-yaamp.sql.gz | sudo mysql --defaults-group-suffix=host1
@@ -833,7 +833,8 @@ define('"'"'EXCH_YOBIT_SECRET'"'"', '"'"''"'"');
     sudo mysql --defaults-group-suffix=host1 --force < 2017-11-segwit.sql
     sudo mysql --defaults-group-suffix=host1 --force < 2018-01-stratums_ports.sql
     sudo mysql --defaults-group-suffix=host1 --force < 2018-02-coins_getinfo.sql
-
+    sudo mysql --defaults-group-suffix=host1 --force < 2018-09-22-workers.sql
+    sudo mysql --defaults-group-suffix=host1 --force < 2020-06-03-blocks.sql
     output " "
     output "Generating a basic serverconfig.php"
     output " "
@@ -867,12 +868,12 @@ define('"'"'YAAMP_USE_NICEHASH_API'"'"', false);
 define('"'"'YAAMP_BTCADDRESS'"'"', '"'"' '"'"');
 define('"'"'YAAMP_SITE_URL'"'"', '"'"''"${server_name}"''"'"');
 define('"'"'YAAMP_STRATUM_URL'"'"', YAAMP_SITE_URL); // change if your stratum server is on a different host
-define('"'"'YAAMP_SITE_NAME'"'"', '"'"'YIIMP'"'"');
+define('"'"'YAAMP_SITE_NAME'"'"', '"'"'Coleganet'"'"');
 define('"'"'YAAMP_ADMIN_EMAIL'"'"', '"'"''"${EMAIL}"''"'"');
 define('"'"'YAAMP_ADMIN_IP'"'"', '"'"''"${Public}"''"'"'); // samples: "80.236.118.26,90.234.221.11" or "10.0.0.1/8"
 define('"'"'YAAMP_ADMIN_WEBCONSOLE'"'"', true);
-define('"'"'YAAMP_NOTIFY_NEW_COINS'"'"', true);
-define('"'"'YAAMP_DEFAULT_ALGO'"'"', '"'"'x11'"'"');
+define('"'"'YAAMP_NOTIFY_NEW_COINS'"'"', false);
+define('"'"'YAAMP_DEFAULT_ALGO'"'"', '"'"'x16r'"'"');
 define('"'"'YAAMP_USE_NGINX'"'"', true);
 // Exchange public keys (private keys are in a separate config file)
 define('"'"'EXCH_CRYPTOPIA_KEY'"'"', '"'"''"'"');
@@ -950,7 +951,7 @@ sudo chmod -R 775 /var/web/yaamp/runtime
 sudo chmod -R 664 /root/backup/
 sudo chmod -R 644 /var/log/debug.log
 sudo chmod -R 775 /var/web/serverconfig.php
-sudo mv $HOME/yiimp/ $HOME/yiimp-install-only-do-not-run-commands-from-this-folder
+sudo mv $HOME/yiimp/ $HOME/coleganet-install-only-do-not-run-commands-from-this-folder
 sudo service nginx restart
 sudo service php7.2-fpm reload
 output " "
