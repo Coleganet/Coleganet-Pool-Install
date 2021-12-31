@@ -269,7 +269,16 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     sudo make
     cd $HOME/PoolColeganet/stratum/iniparser
+    output " Installing any libs we can need for Coleganet Pool"
     apt-get install libmysqlclient-dev
+    sudo apt install libiniparser-dev
+    sudo apt‐get install python3‐zmq
+    sudo apt‐get install python3‐tornado
+    sudo apt‐get install python3‐netifaces
+    sudo apt‐get install python3‐setuptools
+    sudo apt‐get install python3‐pyqt4
+    sudo apt‐get install python3‐ws4py
+    output " Ready to make Stratum Pool"
     sudo make
     cd $HOME/PoolColeganet/stratum
     if [[ ("$BTC" == "y" || "$BTC" == "Y") ]]; then
