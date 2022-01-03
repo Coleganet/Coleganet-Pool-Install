@@ -961,6 +961,21 @@ sudo chmod -R 775 /var/web/yaamp/runtime
 sudo chmod -R 664 /root/backup/
 sudo chmod -R 644 /var/log/debug.log
 sudo chmod -R 775 /var/web/serverconfig.php
+output " "
+output "Now for Install the Startup Scripts take a little expresso and have fun!"
+output " "
+sudo chown root /etc/rc.local
+sudo chmod 755 /etc/rc.local
+chmod +x /etc/rc.local
+sudo systemctl enable rc-local.service
+echo "I like programming." | sed 's/etc/rc.local/& #!/bin/sh -e/'
+sudo systemctl start rc-local.service
+
+
+
+
+
+
 sudo mv $HOME/yiimp/ $HOME/coleganet-install-only-do-not-run-commands-from-this-folder
 sudo service nginx restart
 sudo service php7.2-fpm reload
