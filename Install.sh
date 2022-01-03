@@ -984,7 +984,8 @@ output "Update Memcached flux use every time you make template changes "
 sed -i -e '$a## bash shortcut Mencached Flush ##' ~/.bashrc
 sed -i -e '$aalias flush_mem_cache_server="echo 'flush_all' | netcat 127.0.0.1 11211"' ~/.bashrc
 output "Use the command mflush for clean memcached "
-output " "
+sudo apt-get -y install apache2-utils
+output "Installing Apache Utils You will need for protect Admin folder with a password please read inside scripts folder the document Admin"
 output "Whew that was fun, just some reminders. Your mysql information is saved in ~/.my.cnf. this installer did not directly install anything required to build coins."
 output "Add your exchange API public and secret keys in these two separated files:"
 output "/etc/yiimp/keys.php - fixed path in code "
