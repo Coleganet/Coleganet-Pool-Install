@@ -968,10 +968,9 @@ sudo chown root /etc/rc.local
 sudo chmod 755 /etc/rc.local
 chmod +x /etc/rc.local
 sudo systemctl enable rc-local.service
-echo "I like programming." | sed 's/etc/rc.local/& #!/bin/sh -e/'
 sudo systemctl start rc-local.service
-
-
+cp /var/web/pool /etc/init.d/pool
+sudo update-rc.d pool defaults 95
 
 
 
