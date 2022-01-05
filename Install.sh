@@ -237,6 +237,7 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
    sudo ufw allow 8463/tcp
    sudo ufw allow 8433/tcp
    sudo ufw allow 8533/tcp
+   sudo ufw allow 10000/tcp
     sudo ufw --force enable    
     fi
 
@@ -979,7 +980,13 @@ apt install lsb-release figlet update-motd landscape-common update-notifier-comm
 sudo mv $HOME/yiimp/ $HOME/coleganet-install-only-do-not-run-commands-from-this-folder
 sudo service nginx restart
 sudo service php7.2-fpm reload
-output " "
+output "Installing Server Manager Webmin"
+echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+wget -q -O- http://www.webmin.com/jcameron-key.asc | sudo apt-key add
+sudo apt-get update
+sudo apt install webmin
+output "********************************************* "
+output "Visit https://yourserver.com:10000 for use your server manager user root password your password "
 output "Update Memcached flux use every time you make template changes "
 sed -i -e '$a## bash shortcut Mencached Flush ##' ~/.bashrc
 sed -i -e '$aalias flush_mem_cache_server="echo 'flush_all' | netcat 127.0.0.1 11211"' ~/.bashrc
