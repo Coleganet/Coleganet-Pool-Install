@@ -993,17 +993,49 @@ sed -i -e '$aalias flush_mem_cache_server="echo 'flush_all' | netcat 127.0.0.1 1
 output "Use the command mflush for clean memcached "
 sudo apt-get -y install apache2-utils
 output "Installing Apache Utils You will need for protect Admin folder with a password please read inside scripts folder the document Admin"
-output "Whew that was fun, just some reminders. Your mysql information is saved in ~/.my.cnf. this installer did not directly install anything required to build coins."
-output "Add your exchange API public and secret keys in these two separated files:"
-output "/etc/yiimp/keys.php - fixed path in code "
-output "Please make sure to change your wallet addresses in the /var/web/serverconfig.php file."
-output " "
-output "Please make sure to add your public and private keys."
-output " You can find sample config files in web/serverconfig.sample.php and web/keys.sample.php "
-output " You need at least three backend shells (in screen) running these scripts:"
-output "web/main.sh"
-output "web/loop2.sh"
-output "web/block.sh"
-output " "
-output "Start one stratum per algo using the run.sh script with the algo as parameter. For example, for x11:"
-output "run.sh x11  /// Edit each .conf file with proper values."
+ #Restart service
+    sudo systemctl restart cron.service
+    sudo systemctl restart mysql
+    sudo systemctl status mysql | sed -n "1,3p"
+    sudo systemctl restart nginx.service
+    sudo systemctl status nginx | sed -n "1,3p"
+    sudo systemctl restart php7.3-fpm.service
+    sudo systemctl status php7.3-fpm | sed -n "1,3p"
+
+
+    echo
+    echo -e "$GREEN Done...$COL_RESET"
+    sleep 3
+
+    echo
+    echo
+    echo
+    echo -e "$GREEN***************************$COL_RESET"
+    echo -e "$GREEN Yiimp Install Script v0.2 $COL_RESET"
+    echo -e "$GREEN Finish !!! $COL_RESET"
+    echo -e "$GREEN***************************$COL_RESET"
+    echo 
+    echo
+    echo
+    echo -e "$CYAN Whew that was fun, just some reminders. $COL_RESET" 
+    echo -e "$RED Your mysql information is saved in ~/.my.cnf. $COL_RESET"
+    echo
+    echo -e "$RED Yiimp at : http://"$server_name" (https... if SSL enabled)"
+    echo -e "$RED Yiimp Admin at : http://"$server_name"/site/AdminPanel (https... if SSL enabled)"
+    echo -e "$RED Yiimp phpMyAdmin at : http://"$server_name"/phpmyadmin (https... if SSL enabled)"
+    echo
+    echo -e "$RED If you want change 'AdminPanel' to access Panel Admin : Edit this file : /var/web/yaamp/modules/site/SiteController.php"
+    echo -e "$RED Line 11 => change 'AdminPanel' and use the new address"
+    echo
+    echo -e "$CYAN Please make sure to change your public keys / wallet addresses in the /var/web/serverconfig.php file. $COL_RESET"
+    echo -e "$CYAN Please make sure to change your private keys in the /etc/yiimp/keys.php file. $COL_RESET"
+    echo
+    echo -e "$CYAN TUTO Youtube : https://www.youtube.com/watch?v=qE0rhfJ1g2k $COL_RESET"
+    echo -e "$CYAN Xavatar WebSite : https://www.xavatar.com $COL_RESET"
+    echo
+    echo
+    echo -e "$RED***************************************************$COL_RESET"
+    echo -e "$RED YOU MUST REBOOT NOW  TO FINALIZE INSTALLATION !!! $COL_RESET"
+    echo -e "$RED***************************************************$COL_RESET"
+    echo
+    echo
