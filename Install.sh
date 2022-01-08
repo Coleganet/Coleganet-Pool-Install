@@ -11,7 +11,13 @@
 # 
 ################################################################################
 
+output " Do not run the pool as root : create a new user without ssh access to avoid security issues : "
 
+sudo adduser --disabled-password --disabled-login pool
+
+output " To login with this user :sudo su - pool"
+
+sudo su - pool
 
 output() {
    printf "\E[0;33;40m"
