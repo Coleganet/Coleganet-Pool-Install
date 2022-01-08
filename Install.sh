@@ -275,8 +275,16 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     cd $HOME/PoolColeganet/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     sudo make
-    cd $HOME/PoolColeganet/stratum/iniparser
+   
+    output " Installing Stratum with New Installer"
+    output " If your default compiler is gcc 8.3.0 (Debian 8.3.0-6) you possible will get crash of app after share received "
+    sleep 5
+   #cd $HOME/PoolColeganet/stratum/iniparser
+     cd $HOME/PoolColeganet/stratum
     output " Installing any libs we can need for Coleganet Pool"
+    apt-get install libmysqlclient-dev
+    apt install libnghttp2-dev librtmp-dev libssh2-1 libssh2-1-dev libldap2-dev libidn11-dev libpsl-dev
+    apt install libkrb5-d
     apt-get install libmysqlclient-dev
     sudo apt install libiniparser-dev
     sudo apt‐get install python3‐zmq
@@ -286,13 +294,18 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     sudo apt‐get install python3‐pyqt4
     sudo apt‐get install python3‐ws4py
     output " Ready to make Stratum Pool"
-    sudo make
+    make -C iniparser/ -j$(nproc)
+    make -C algos/ -j$(nproc)
+    make -C sha3 -j$(nproc)
+    #sudo make
     cd $HOME/PoolColeganet/stratum
     if [[ ("$BTC" == "y" || "$BTC" == "Y") ]]; then
     sudo sed -i 's/CFLAGS += -DNO_EXCHANGE/#CFLAGS += -DNO_EXCHANGE/' $HOME/PoolColeganet/stratum/Makefile
-    sudo make
+    # sudo make
+    make -f Makefile -j$(nproc)
     fi
-    sudo make
+    # sudo make
+    make -f Makefile -j$(nproc)
     cd $HOME/PoolColeganet
     sudo sed -i 's/MasterNode/'$admin_panel'/' $HOME/PoolColeganet/web/yaamp/modules/site/SiteController.php
     sudo cp -r $HOME/PoolColeganet/web /var/
