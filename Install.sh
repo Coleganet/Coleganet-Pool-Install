@@ -10,15 +10,11 @@
 # BTC Donation:1K5qZcCT8ZGzLfbR75GWJNXo3MViaZrvq7
 # 
 ################################################################################
-
 output " Do not run the pool as root : create a new user without ssh access to avoid security issues : "
 
 sudo adduser --disabled-password --disabled-login pool
 
 output " To login with this user :sudo su - pool"
-
-sudo su - pool
-
 output() {
    printf "\E[0;33;40m"
    echo $1
@@ -271,7 +267,12 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     #Generating Random Password for stratum
     blckntifypass=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
     cd ~
-    git clone https://github.com/Coleganet/PoolColeganet.git
+   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+   sudo apt-add-repository https://cli.github.com/packages
+   sudo apt update
+   sudo apt install github
+   sudo apt install gh
+   git clone https://github.com/Coleganet/PoolColeganet.git
     cd $HOME/PoolColeganet/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     sudo make
