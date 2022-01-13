@@ -1,4 +1,4 @@
-# Yiimp-Install-Mining-Pool-Software UBUNTU 18.04
+# Coleganet-Install-Mining-Pool-Software UBUNTU 18.04
 Install and Build Mining Pool for Any Cryptocurrency Altcoins and Algorithms on Yiimp (Multi Coins/Algo Mining Pool Software)
 ----------------
 
@@ -22,8 +22,9 @@ Install script for yiimp on Ubuntu Server 16.04 / 18.04 (use Tpruvot's Yiimp)
 USE THIS SCRIPT ON FRESH INSTALL UBUNTU Server 16.04 / 18.04 !
 
 Connect on your VPS =>
+Coleganet use a new theme and add mysql management inside the administration 
+phpMyEdit-5.7.1.tar.gz
 
-apt update
 apt upgrade
 reboot
 adduser pool (pool it's just an example...)
