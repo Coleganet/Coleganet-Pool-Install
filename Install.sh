@@ -107,6 +107,7 @@ default         0;
     sudo phpenmod mcrypt
     sudo pecl channel-update pecl.php.net
     sudo pecl install mcrypt-1.0.3
+    sudo apt-get install php7.2-dev
 sudo bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.2/cli/conf.d/mcrypt.ini"
 sudo bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.2/fpm/conf.d/mcrypt.ini"
 php -i | grep "mcrypt"
