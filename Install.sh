@@ -65,7 +65,7 @@ displayErr() {
     output "Installing Nginx server."
     output " "
     sleep 3
-
+    openssl dhparam -out dhparam.pem 4096
     sudo aptitude -y install nginx
     sudo rm /etc/nginx/sites-enabled/default
     sudo service nginx start
