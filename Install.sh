@@ -136,7 +136,7 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     sleep 3
 
     sudo aptitude -y install software-properties-common build-essential
-    sudo aptitude -y install libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils git cmake libboost-all-dev zlib1g-dev libz-dev libseccomp-dev libcap-dev libminiupnpc-dev
+    sudo aptitude -y install libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils git cmake liboost-all-dev zlib1g-dev libz-dev libseccomp-dev libcap-dev libminiupnpc-dev
     sudo aptitude -y install libminiupnpc10 libzmq5
     sudo aptitude -y install libcanberra-gtk-module libqrencode-dev libzmq3-dev
     sudo aptitude -y install libqt5gui5 libqt5core5a libqt5webkit5-dev libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
@@ -272,7 +272,7 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
    sudo apt-add-repository https://cli.github.com/packages
    sudo apt update
-   sudo apt install github
+   sudo apt install git
    sudo apt install gh
    git clone https://github.com/Coleganet/PoolColeganet.git
     cd $HOME/PoolColeganet/blocknotify
