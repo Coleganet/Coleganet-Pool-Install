@@ -993,6 +993,7 @@ chmod +x /etc/rc.local
 sudo systemctl enable rc-local.service
 sudo systemctl start rc-local.service
 cp /var/web/pool /etc/init.d/pool
+chmod +x  /etc/init.d/pool
 sudo update-rc.d pool defaults 95
 apt install lsb-release figlet update-motd landscape-common update-notifier-common
 
