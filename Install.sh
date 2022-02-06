@@ -31,7 +31,7 @@ displayErr() {
 
     output " "
     output "Make sure you double check before hitting enter! Only one shot at these!"
-    output " "
+    outoput " "
     read -e -p "Enter time zone (e.g. America/New_York) : " TIME
     read -e -p "Server name (no http:// or www. just example.com) : " server_name
     read -e -p "Are you using a subdomain (pool.example.com?) [y/N] : " sub_domain
@@ -66,6 +66,7 @@ displayErr() {
     output " "
     sleep 3
     openssl dhparam -out dhparam.pem 4096
+    mv dhparam.pem /etc/ssl/certs
     sudo aptitude -y install nginx
     sudo rm /etc/nginx/sites-enabled/default
     sudo service nginx start
