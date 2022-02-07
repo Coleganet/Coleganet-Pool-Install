@@ -128,7 +128,7 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     sudo aptitude -y install mutt
     sudo aptitude -y install git screen
     sudo aptitude -y install pwgen -y
-    
+    sudo apt install gnupg2 pass
 
     #Installing Package to compile crypto currency
     output " "
