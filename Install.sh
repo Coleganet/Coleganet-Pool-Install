@@ -53,7 +53,7 @@ displayErr() {
     sudo apt-get -y update 
     sudo apt-get -y upgrade
     sudo apt-get -y autoremove
-
+    sudo apt install --assume-yes gcc shc  
     output " "
     output "Switching to Aptitude"
     output " "
@@ -96,7 +96,7 @@ default         0;
     sudo aptitude -y install mariadb-server
 
     output " "
-    output "Installing php7.x and other needed files"
+    output "Installing php7.2 and other needed files please not upgrade PHP  "
     output " "
     sleep 3
 
@@ -1023,8 +1023,8 @@ output "Installing Apache Utils You will need for protect Admin folder with a pa
     sudo systemctl status mysql | sed -n "1,3p"
     sudo systemctl restart nginx.service
     sudo systemctl status nginx | sed -n "1,3p"
-    sudo systemctl restart php7.3-fpm.service
-    sudo systemctl status php7.3-fpm | sed -n "1,3p"
+    sudo systemctl restart php7.2-fpm.service
+    sudo systemctl status php7.2-fpm | sed -n "1,3p"
 
 
     echo
