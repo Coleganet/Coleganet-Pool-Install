@@ -275,7 +275,7 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
    sudo apt update
    sudo apt install git
    sudo apt install gh
-   git clone https://github.com/Coleganet/PoolColeganet.git
+   git clone https://github.com/Kudaraidee/yiimp.git
     cd $HOME/PoolColeganet/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     sudo make
