@@ -3,7 +3,7 @@
  WEB_DIR=/var/web
  STRATUM_DIR=/var/stratum
  USR_BIN=/usr/bin
- 
+ sudo killall screen
  screen -dmS main bash $WEB_DIR/main.sh
  screen -dmS loop2 bash $WEB_DIR/loop2.sh
  screen -dmS blocks bash $WEB_DIR/blocks.sh
