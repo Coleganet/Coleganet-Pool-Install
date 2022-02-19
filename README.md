@@ -17,21 +17,23 @@ We provide altcoin cryptocurrencies mining pool installation and creation servic
 
 How Does it Work?
 ----------
-You will be required to get a VPS or cloud service like AWS instance etc or a server that can be obtained from several hosts online or if you have your very own server at your premises that can also be used to setup pool. For detailed minimum specifications and operating system that is usually Ubuntu/Linux,
+You will be required to get a DOCKER CONTAINERS instance etc or a server that can be obtained from several hosts online or if you have your very own server at your premises that can also be used to setup pool. For detailed minimum specifications and operating system that is usually Ubuntu/Linux,
 Install script for yiimp on Ubuntu Server 16.04 / 18.04 (use Tpruvot's Yiimp)
 USE THIS SCRIPT ON FRESH INSTALL UBUNTU Server 16.04 / 18.04 !
 
-Connect on your VPS =>
+Connect on your DOCKER =>
 Coleganet use a new theme and add mysql management inside the administration 
-phpMyEdit-5.7.1.tar.gz
 
-apt upgrade
-reboot
-adduser pool (pool it's just an example...)
-adduser pool sudo
-su - pool
-sudo apt -y install git
-git clone https://github.com/xavatar/yiimp_install_scrypt.git
+sudo su
+
+cd $HOME
+
+git clone https://github.com/Coleganet/Coleganet-Pool-Install.git
+
+cd Coleganet-Pool-Install
+
+bash install.sh
+
 cd yiimp_install_scrypt/
 bash install.sh (DO NOT RUN THE SCRIPT AS ROOT or SUDO)
 At the end, you MUST REBOOT to finalize installation...

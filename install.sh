@@ -70,7 +70,7 @@ displayErr() {
     apt update
     apt install nginx
     output "Checking Nginx for start inside Docker container"
-    sudo -- bash -c "echo daemon off; > /etc/nginx/nginx.conf"
+    #sudo -- bash -c "echo daemon off; > /etc/nginx/nginx.conf"
     openssl dhparam -out dhparam.pem 4096
     mv dhparam.pem /etc/ssl/certs
     sudo aptitude -y install nginx
@@ -87,6 +87,8 @@ default         0;
 ~*bandit        1;
 }
 ' | sudo -E tee /etc/nginx/blockuseragents.rules >/dev/null 2>&1
+
+    cp -r $HOME/Coleganet-Pool-Install/nginx.conf  /etc/nginx
 
     output " "
     output "Installing Mariadb Server."
@@ -144,7 +146,8 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.3/fpm/php.ini'
     sleep 3
 
     sudo aptitude -y install software-properties-common build-essential
-    sudo aptitude -y install libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils git cmake liboost-all-dev zlib1g-dev libz-dev libseccomp-dev libcap-dev libminiupnpc-dev
+    sudo aptitude -y install libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils git cmake zlib1g-dev libz-dev libseccomp-dev libcap-dev libminiupnpc-dev
+  l sudo apt-get install libboost-all-dev
     sudo aptitude -y install libminiupnpc10 libzmq5
     sudo aptitude -y install libcanberra-gtk-module libqrencode-dev libzmq3-dev
     sudo aptitude -y install libqt5gui5 libqt5core5a libqt5webkit5-dev libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
@@ -170,9 +173,11 @@ apt install git-core build-essential libssl-dev libboost-all-dev libdb5.3-dev li
    sudo apt update
    sudo apt install git
    sudo apt install gh
+   cd $HOME
    git clone https://github.com/Kudaraidee/yiimp.git
+   cd $HOME/yiimp
    cp screen_Stratum.sh /etc
-    cd /root/yiimp/blocknotify
+    cd $HOME/yiimp/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     sudo make
     output " Installing Stratum with New Installer"
@@ -180,7 +185,7 @@ apt install git-core build-essential libssl-dev libboost-all-dev libdb5.3-dev li
     sleep 5
     sudo apt-get install -y libbrotli-dev libssh-dev libbrotli-dev libssh-dev
    #cd /root/stratum/iniparser
-     cd /root/yiimp/iniparser/stratum
+     cd $HOME/yiimp/iniparser/stratum
     output " Installing any libs we can need for Coleganet Pool"
     apt-get install libmysqlclient-dev
     apt install libnghttp2-dev librtmp-dev libssh2-1 libssh2-1-dev libldap2-dev libidn11-dev libpsl-dev
@@ -197,28 +202,29 @@ apt install git-core build-essential libssl-dev libboost-all-dev libdb5.3-dev li
     make -C algos/ -j$(nproc)
     make -C sha3 -j$(nproc)
     #sudo make
-    cd /root/yiimp/stratum
+    cd $HOME/yiimp/stratum
     if [[ ("$BTC" == "y" || "$BTC" == "Y") ]]; then
-    sudo sed -i 's/CFLAGS += -DNO_EXCHANGE/#CFLAGS += -DNO_EXCHANGE/' /root/stratum/Makefile
+    sudo sed -i 's/CFLAGS += -DNO_EXCHANGE/#CFLAGS += -DNO_EXCHANGE/' $HOME/stratum/Makefile
     # sudo make
     make -f Makefile -j$(nproc)
     fi
     # sudo make
     make -f Makefile -j$(nproc)
-    cd /root
-    sudo sed -i 's/MasterNode/'$admin_panel'/' /root/web/yaamp/modules/site/SiteController.php
-    sudo cp -r /root/yiimp/web /var/
+    make install
+    cd $HOME
+    sudo sed -i 's/MasterNode/'$admin_panel'/' $HOME/yiimp/web/yaamp/modules/site/SiteController.php
+    sudo cp -r $HOME/yiimp/web /var/
     sudo mkdir -p /var/stratum
-    cd /root/yiimp/stratum
+    cd $HOME/yiimp/stratum
     sudo cp -a config.sample/. /var/stratum/config
     sudo cp -r stratum /var/stratum
     sudo cp -r run.sh /var/stratum
     cd /root
-    sudo cp -r /root/yiimp/bin/. /bin/
-    sudo cp -r /root/yiimp/blocknotify/blocknotify /usr/bin/
-    sudo cp -r /root/yiimp/blocknotify/blocknotify /var/stratum/
+    sudo cp -r $HOME/yiimp/bin/. /bin/
+    sudo cp -r $HOME/yiimp/blocknotify/blocknotify /usr/bin/
+    sudo cp -r $HOME/yiimp/blocknotify/blocknotify /var/stratum/
     sudo mkdir -p /etc/yiimp
-    sudo mkdir -p /home/backup/
+    sudo mkdir -p $HOME/backup/
     #fixing yiimp
     sed -i "s|/root=/data/yiimp|ROOTDIR=/var|g" /bin/yiimp
     #fixing run.sh
@@ -342,7 +348,8 @@ sudo chmod +x /var/stratum/config/run.sh
 
     sudo ln -s /etc/nginx/sites-available/$server_name.conf /etc/nginx/sites-enabled/$server_name.conf
     sudo ln -s /var/web /var/www/$server_name/html
-    sudo service nginx restart
+    #sudo service nginx restart
+    sudo supervisorctl restart nginx
     if [[ ("$ssl_install" == "y" || "$ssl_install" == "Y" || "$ssl_install" == "") ]]; then
 
     output " "
@@ -460,7 +467,8 @@ sudo chmod +x /var/stratum/config/run.sh
         
 ' | sudo -E tee /etc/nginx/sites-available/$server_name.conf >/dev/null 2>&1
    fi
-   sudo service nginx restart
+   #sudo service nginx restart
+   sudo supervisorctl restart nginx
    sudo service php7.3-fpm reload
    else
    echo 'include /etc/nginx/blockuseragents.rules;
@@ -543,7 +551,8 @@ sudo chmod +x /var/stratum/config/run.sh
 
     sudo ln -s /etc/nginx/sites-available/$server_name.conf /etc/nginx/sites-enabled/$server_name.conf
     sudo ln -s /var/web /var/www/$server_name/html
-    sudo service nginx restart
+    #sudo service nginx restart
+    sudo supervisorctl restart nginx
     if [[ ("$ssl_install" == "y" || "$ssl_install" == "Y" || "$ssl_install" == "") ]]; then
 
     output " "
@@ -662,7 +671,8 @@ sudo chmod +x /var/stratum/config/run.sh
         
 ' | sudo -E tee /etc/nginx/sites-available/$server_name.conf >/dev/null 2>&1
    fi
-   sudo service nginx restart
+   #sudo service nginx restart
+   sudo supervisorctl restart nginx
    sudo service php7.3-fpm reload
    fi
 
@@ -883,12 +893,10 @@ sudo chmod -R 775 /var/web/serverconfig.php
 output " "
 output "Now for Install the Startup Scripts take a little expresso and have fun!"
 output " "
-cp /var/web/pool /etc/init.d/pool
-chmod +x  /etc/init.d/pool
-sudo update-rc.d pool defaults 95
 apt install lsb-release figlet update-motd landscape-common update-notifier-common
 sudo mv /home/yiimp/ /home/coleganet-install-only-do-not-run-commands-from-this-folder
-sudo service nginx restart
+#sudo service nginx restart
+sudo supervisorctl restart nginx
 sudo service php7.3-fpm reload
 output "Installing Server Manager Webmin"
 echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
@@ -907,11 +915,10 @@ output "Installing Apache Utils You will need for protect Admin folder with a pa
     sudo service cron restart
     sudo servicet mysql restart
     sudo service mysql status | sed -n "1,3p"
-    sudo service nginx restart
+    sudo supervisorctl restart nginx
     sudo service nginx status | sed -n "1,3p"
-    sudo service php7.3-fpm restart
-    sudo service php7.3-fpm status | sed -n "1,3p"
-
+    sudo supervisorctl restart php7.3-fpm
+    service php7.3-fpm status | sed -n "1,3p"
 
     echo
     echo -e "$GREEN Done...$COL_RESET"
@@ -939,10 +946,6 @@ output "Installing Apache Utils You will need for protect Admin folder with a pa
     echo
     echo -e "$CYAN Please make sure to change your public keys / wallet addresses in the /var/web/serverconfig.php file. $COL_RESET"
     echo -e "$CYAN Please make sure to change your private keys in the /etc/yiimp/keys.php file. $COL_RESET"
-    echo
-    echo -e "$CYAN TUTO Youtube : https://www.youtube.com/watch?v=qE0rhfJ1g2k $COL_RESET"
-    echo -e "$CYAN Xavatar WebSite : https://www.xavatar.com $COL_RESET"
-    echo
     echo
     echo -e "$RED***************************************************$COL_RESET"
     echo -e "$RED YOU MUST REBOOT NOW  TO FINALIZE INSTALLATION !!! $COL_RESET"
