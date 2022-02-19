@@ -1,21 +1,15 @@
 #!/bin/bash
-
 ###############################################################################
 # Author:   coleganet
-# 
+#
 # Web:      www.coleganet.com
 #
 # Program:
 #   Install Coleganet Pool on Ubuntu 18.04 runnin
 #        Nginx, MariaDB, and php7.x
 # BTC Donation:1K5qZcCT8ZGzLfbR75GWJNXo3MViaZrvq7
-# 
+#
 ################################################################################
-output " Do not run the pool as root : create a new user without ssh access to avoid security issues : "
-
-sudo adduser --disabled-password --disabled-login pool
-
-output " To login with this user :sudo su - pool"
 output() {
    printf "\E[0;33;40m"
    echo $1
@@ -28,19 +22,22 @@ displayErr() {
    echo
    exit 1;
 }
+   output " For Debug the script in case of errors execute  bash -x install.sh"
+   output " Do not run the pool as root : create a new user without ssh access to avoid security issues : "
+
+   sudo adduser --disabled-password --disabled-login pool
+   output " To login with this user :sudo su - pool"
 
     output " "
     output "Make sure you double check before hitting enter! Only one shot at these!"
     outoput " "
-    read -e -p "Enter time zone (e.g. America/New_York) : " TIME
+    read -e -p "Enter time zone (e.g. Spain/Madrid) : " TIME
     read -e -p "Server name (no http:// or www. just example.com) : " server_name
     read -e -p "Are you using a subdomain (pool.example.com?) [y/N] : " sub_domain
     read -e -p "Enter support email (e.g. admin@example.com) : " EMAIL
     read -e -p "Set stratum to AutoExchange? i.e. mine any coinf with BTC address? [y/N] : " BTC
     read -e -p "Please enter a new location for /site/adminRights this is to customize the admin entrance url (e.g. myAdminpanel) : " admin_panel
     read -e -p "Enter your Public IP for admin access (http://www.whatsmyip.org/) : " Public
-    read -e -p "Install Fail2ban? [Y/n] : " install_fail2ban
-    read -e -p "Install UFW and configure ports? [Y/n] : " UFW
     read -e -p "Install LetsEncrypt SSL? IMPORTANT! You MUST have your domain name pointed to this server prior to running the script!! [Y/n]: " ssl_install
 
     output " "
@@ -51,28 +48,35 @@ displayErr() {
 
     # update package and upgrade Ubuntu
     sudo apt-get -y update 
-    sudo apt-get -y upgrade
     sudo apt-get -y autoremove
-    sudo apt install --assume-yes gcc shc  
+
+    output "Checking and Updating system and installing basic packages."
+    curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash
+    sudo apt remove --purge mariadb-server mariadb-client mysql-server mysql-client -y
+    sudo apt install  mariadb-server mariadb-client
+    sudo apt install --assume-yes gcc shc
     output " "
     output "Switching to Aptitude"
     output " "
     sleep 3
-
     sudo apt-get -y install aptitude
-
     output " "
     output "Installing Nginx server."
     output " "
-    sleep 3
+    sleep 2
+    output "If you get an error about add-apt-repository not existing, you will want to install python-software-properties."
+    add-apt-repository ppa:nginx/stable
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C300EE8C
+    apt update
+    apt install nginx
+    output "Checking Nginx for start inside Docker container"
+    sudo -- bash -c "echo daemon off; > /etc/nginx/nginx.conf"
     openssl dhparam -out dhparam.pem 4096
     mv dhparam.pem /etc/ssl/certs
     sudo aptitude -y install nginx
     sudo rm /etc/nginx/sites-enabled/default
     sudo service nginx start
     sudo service cron start
-
-
     #Making Nginx a bit hard
     echo 'map $http_user_agent $blockedagent {
 default         0;
@@ -96,28 +100,28 @@ default         0;
     sudo aptitude -y install mariadb-server
 
     output " "
-    output "Installing php7.2 and other needed files please not upgrade PHP  "
+    output "Installing php7.3 and other needed files please not upgrade PHP  "
     output " "
     sleep 3
-    apt-get install python-software-properties
+    apt-get install software-properties-common
     sudo add-apt-repository -y ppa:ondrej/php
     sudo apt-get update
-    update-alternatives --set php /usr/bin/php7.2
-    sudo aptitude -y install php7.2-fpm
-    sudo aptitude -y install php7.2-opcache php7.2-fpm php7.2 php7.2-common php7.2-gd php7.2-mysql php7.2-imap php7.2-cli php7.2-cgi php-pear php-auth php7.2-mcrypt mcrypt imagemagick libruby php7.2-curl php7.2-intl php7.2-pspell php7.2-recode php7.2-sqlite3 php7.2-tidy php7.2-xmlrpc php7.2-xsl memcached php-memcache php-imagick php-gettext php7.2-zip php7.2-mbstring php7.2-dev php7.2-dev
+    #update-alternatives --set php /usr/bin/php7.3
+    sudo aptitude -y install php7.3-fpm
+    sudo aptitude -y install php7.3-opcache php7.3-fpm php7.3 php7.3-common php7.3-gd php7.3-mysql php7.3-imap php7.3-cli php7.3-cgi php-pear php-auth php7.3-mcrypt mcrypt imagemagick libruby php7.3-curl php7.3-intl php7.3-pspell php7.3-recode php7.3-sqlite3 php7.3-tidy php7.3-xmlrpc php7.3-xsl memcached php-memcache php-imagick php-gettext php7.3-zip php7.3-mbstring php7.3-dev php7.3-dev
     sudo apt-get -y install php-memcache
     sudo apt-get -y install memcached
     sudo apt-get -y install libmcrypt-dev
     sudo phpenmod mcrypt
     sudo pecl channel-update pecl.php.net
     sudo pecl install mcrypt-1.0.3
-    sudo apt-get install php7.2-dev
-sudo bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.2/cli/conf.d/mcrypt.ini"
-sudo bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.2/fpm/conf.d/mcrypt.ini"
+    sudo apt-get install php7.3-dev
+#sudo bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.3/cli/conf.d/mcrypt.ini"
+#sudo bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.3/fpm/conf.d/mcrypt.ini"
 php -i | grep "mcrypt"
 
-sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/cli/php.ini'
-sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
+sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.3/cli/php.ini'
+sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.3/fpm/php.ini'
     sudo phpenmod mbstring
     sudo aptitude -y install libgmp3-dev
     sudo aptitude -y install libmysqlclient-dev
@@ -144,132 +148,20 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     sudo aptitude -y install libminiupnpc10 libzmq5
     sudo aptitude -y install libcanberra-gtk-module libqrencode-dev libzmq3-dev
     sudo aptitude -y install libqt5gui5 libqt5core5a libqt5webkit5-dev libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
-    sudo add-apt-repository -y ppa:bitcoin/bitcoin
+apt install python3-bitcoinlib
+sudo add-apt-repository -y ppa:bitcoin/bitcoin
     sudo apt-get -y update
-    sudo apt-get install -y libdb4.8-dev libdb4.8++-dev libdb5.3 libdb5.3++
-
-
+    sudo apt-get install -y libdb5.3-dev libdb5.3++-dev libdb5.3 libdb5.3++
+apt install git-core build-essential libssl-dev libboost-all-dev libdb5.3-dev libdb5.3++-dev libgtk2.0-dev
     #Generating Random Passwords
     password=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
     password2=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
     AUTOGENERATED_PASS=`pwgen -c -1 20`
-
-    output " "
-    output "Testing to see if server emails are sent"
-    output " "
-    sleep 3
-
-    if [[ "$root_email" != "" ]]; then
-    echo $root_email > sudo tee --append ~/.email
-    echo $root_email > sudo tee --append ~/.forward
-
-    if [[ ("$send_email" == "y" || "$send_email" == "Y" || "$send_email" == "") ]]; then
-        echo "This is a mail test for the SMTP Service." > sudo tee --append /tmp/email.message
-        echo "You should receive this !" >> sudo tee --append /tmp/email.message
-        echo "" >> sudo tee --append /tmp/email.message
-        echo "Cheers" >> sudo tee --append /tmp/email.message
-        sudo sendmail -s "SMTP Testing" $root_email < sudo tee --append /tmp/email.message
-
-        sudo rm -f /tmp/email.message
-        echo "Mail sent"
-    fi
-    fi
-
-    output " "
-    output "Some optional installs"
-    output " "
-    sleep 3
-
-
-    if [[ ("$install_fail2ban" == "y" || "$install_fail2ban" == "Y" || "$install_fail2ban" == "") ]]; then
-    sudo aptitude -y install fail2ban
-    fi
-    if [[ ("$UFW" == "y" || "$UFW" == "Y" || "$UFW" == "") ]]; then
-    sudo apt-get install ufw
-    sudo ufw default deny incoming
-    sudo ufw default allow outgoing
-    sudo ufw allow ssh
-    sudo ufw allow http
-    sudo ufw allow https
-   sudo ufw allow 3333/tcp
-   sudo ufw allow 3339/tcp
-   sudo ufw allow 3334/tcp
-   sudo ufw allow 3433/tcp
-   sudo ufw allow 3555/tcp
-   sudo ufw allow 3556/tcp
-   sudo ufw allow 3573/tcp
-   sudo ufw allow 3535/tcp
-   sudo ufw allow 3533/tcp
-   sudo ufw allow 3553/tcp
-   sudo ufw allow 3633/tcp
-   sudo ufw allow 3733/tcp
-   sudo ufw allow 3636/tcp
-   sudo ufw allow 3737/tcp
-   sudo ufw allow 3739/tcp
-   sudo ufw allow 3747/tcp
-   sudo ufw allow 3833/tcp
-   sudo ufw allow 3933/tcp
-   sudo ufw allow 4033/tcp
-   sudo ufw allow 4133/tcp
-   sudo ufw allow 4233/tcp
-   sudo ufw allow 4234/tcp
-   sudo ufw allow 4333/tcp
-   sudo ufw allow 4433/tcp
-   sudo ufw allow 4533/tcp
-   sudo ufw allow 4553/tcp
-   sudo ufw allow 4633/tcp
-   sudo ufw allow 4733/tcp
-   sudo ufw allow 4833/tcp
-   sudo ufw allow 4933/tcp
-   sudo ufw allow 5033/tcp
-   sudo ufw allow 5133/tcp
-   sudo ufw allow 5233/tcp
-   sudo ufw allow 5333/tcp
-   sudo ufw allow 5433/tcp
-   sudo ufw allow 5533/tcp
-   sudo ufw allow 5733/tcp
-   sudo ufw allow 5743/tcp
-   sudo ufw allow 3252/tcp
-   sudo ufw allow 5755/tcp
-   sudo ufw allow 5766/tcp
-   sudo ufw allow 5833/tcp
-   sudo ufw allow 5933/tcp
-   sudo ufw allow 6033/tcp
-   sudo ufw allow 5034/tcp
-   sudo ufw allow 6133/tcp
-   sudo ufw allow 6233/tcp
-   sudo ufw allow 6333/tcp
-   sudo ufw allow 6433/tcp
-   sudo ufw allow 7433/tcp
-   sudo ufw allow 8333/tcp
-   sudo ufw allow 8463/tcp
-   sudo ufw allow 8433/tcp
-   sudo ufw allow 8533/tcp
-   sudo ufw allow 10000/tcp
-    sudo ufw --force enable    
-    fi
-
-    output " "
-    output "Installing phpmyadmin"
-    output " "
-    sleep 3
-
-    echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect" | sudo debconf-set-selections
-    echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | sudo debconf-set-selections
-    echo "phpmyadmin phpmyadmin/mysql/admin-user string root" | sudo debconf-set-selections
-    echo "phpmyadmin phpmyadmin/mysql/admin-pass password $rootpasswd" | sudo debconf-set-selections
-    echo "phpmyadmin phpmyadmin/mysql/app-pass password $AUTOGENERATED_PASS" | sudo debconf-set-selections
-    echo "phpmyadmin phpmyadmin/app-password-confirm password $AUTOGENERATED_PASS" | sudo debconf-set-selections
-    sudo aptitude -y install phpmyadmin
-
-    output " "
     output " Installing Coleganet Pool"
     output " "
     output "Grabbing Coleganet from Github, building files and setting file structure."
     output " "
     sleep 3
-
-
     #Generating Random Password for stratum
     blckntifypass=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
     cd ~
@@ -279,20 +171,20 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
    sudo apt install git
    sudo apt install gh
    git clone https://github.com/Kudaraidee/yiimp.git
-    cd $HOME/PoolColeganet/blocknotify
+   cp screen_Stratum.sh /etc
+    cd /root/yiimp/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     sudo make
-   
     output " Installing Stratum with New Installer"
     output " If your default compiler is gcc 8.3.0 (Debian 8.3.0-6) you possible will get crash of app after share received "
     sleep 5
-   #cd $HOME/PoolColeganet/stratum/iniparser
-     cd $HOME/PoolColeganet/stratum
+    sudo apt-get install -y libbrotli-dev libssh-dev libbrotli-dev libssh-dev
+   #cd /root/stratum/iniparser
+     cd /root/yiimp/iniparser/stratum
     output " Installing any libs we can need for Coleganet Pool"
     apt-get install libmysqlclient-dev
     apt install libnghttp2-dev librtmp-dev libssh2-1 libssh2-1-dev libldap2-dev libidn11-dev libpsl-dev
     apt install libkrb5-d
-    apt-get install libmysqlclient-dev
     sudo apt install libiniparser-dev
     sudo apt‐get install python3‐zmq
     sudo apt‐get install python3‐tornado
@@ -305,30 +197,30 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.2/fpm/php.ini'
     make -C algos/ -j$(nproc)
     make -C sha3 -j$(nproc)
     #sudo make
-    cd $HOME/PoolColeganet/stratum
+    cd /root/yiimp/stratum
     if [[ ("$BTC" == "y" || "$BTC" == "Y") ]]; then
-    sudo sed -i 's/CFLAGS += -DNO_EXCHANGE/#CFLAGS += -DNO_EXCHANGE/' $HOME/PoolColeganet/stratum/Makefile
+    sudo sed -i 's/CFLAGS += -DNO_EXCHANGE/#CFLAGS += -DNO_EXCHANGE/' /root/stratum/Makefile
     # sudo make
     make -f Makefile -j$(nproc)
     fi
     # sudo make
     make -f Makefile -j$(nproc)
-    cd $HOME/PoolColeganet
-    sudo sed -i 's/MasterNode/'$admin_panel'/' $HOME/PoolColeganet/web/yaamp/modules/site/SiteController.php
-    sudo cp -r $HOME/PoolColeganet/web /var/
+    cd /root
+    sudo sed -i 's/MasterNode/'$admin_panel'/' /root/web/yaamp/modules/site/SiteController.php
+    sudo cp -r /root/yiimp/web /var/
     sudo mkdir -p /var/stratum
-    cd $HOME/PoolColeganet/stratum
+    cd /root/yiimp/stratum
     sudo cp -a config.sample/. /var/stratum/config
     sudo cp -r stratum /var/stratum
     sudo cp -r run.sh /var/stratum
-    cd $HOME/PoolColeganet
-    sudo cp -r $HOME/PoolColeganet/bin/. /bin/
-    sudo cp -r $HOME/PoolColeganet/blocknotify/blocknotify /usr/bin/
-    sudo cp -r $HOME/PoolColeganet/blocknotify/blocknotify /var/stratum/
+    cd /root
+    sudo cp -r /root/yiimp/bin/. /bin/
+    sudo cp -r /root/yiimp/blocknotify/blocknotify /usr/bin/
+    sudo cp -r /root/yiimp/blocknotify/blocknotify /var/stratum/
     sudo mkdir -p /etc/yiimp
-    sudo mkdir -p /$HOME/backup/
+    sudo mkdir -p /home/backup/
     #fixing yiimp
-    sed -i "s|ROOTDIR=/data/yiimp|ROOTDIR=/var|g" /bin/yiimp
+    sed -i "s|/root=/data/yiimp|ROOTDIR=/var|g" /bin/yiimp
     #fixing run.sh
     sudo rm -r /var/stratum/config/run.sh
    echo '
@@ -407,7 +299,7 @@ sudo chmod +x /var/stratum/config/run.sh
     
         location ~ ^/index\.php$ {
             fastcgi_split_path_info ^(.+\.php)(/.+)$;
-            fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+            fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
             fastcgi_index index.php;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -439,7 +331,7 @@ sudo chmod +x /var/stratum/config/run.sh
          deny all;
    }
       location ~ /phpmyadmin/(.+\.php)$ {
-         fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+         fastcgi_pass unix:/run/php/php7.3-fpm.sock;
          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
          include fastcgi_params;
          include snippets/fastcgi-php.conf;
@@ -527,7 +419,7 @@ sudo chmod +x /var/stratum/config/run.sh
         
             location ~ ^/index\.php$ {
                 fastcgi_split_path_info ^(.+\.php)(/.+)$;
-                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+                fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
                 fastcgi_index index.php;
                 include fastcgi_params;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -558,7 +450,7 @@ sudo chmod +x /var/stratum/config/run.sh
          deny all;
    }
       location ~ /phpmyadmin/(.+\.php)$ {
-         fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+         fastcgi_pass unix:/run/php/php7.3-fpm.sock;
          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
          include fastcgi_params;
          include snippets/fastcgi-php.conf;
@@ -569,7 +461,7 @@ sudo chmod +x /var/stratum/config/run.sh
 ' | sudo -E tee /etc/nginx/sites-available/$server_name.conf >/dev/null 2>&1
    fi
    sudo service nginx restart
-   sudo service php7.2-fpm reload
+   sudo service php7.3-fpm reload
    else
    echo 'include /etc/nginx/blockuseragents.rules;
    server {
@@ -608,7 +500,7 @@ sudo chmod +x /var/stratum/config/run.sh
     
         location ~ ^/index\.php$ {
             fastcgi_split_path_info ^(.+\.php)(/.+)$;
-            fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+            fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
             fastcgi_index index.php;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -640,7 +532,7 @@ sudo chmod +x /var/stratum/config/run.sh
          deny all;
    }
       location ~ /phpmyadmin/(.+\.php)$ {
-         fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+         fastcgi_pass unix:/run/php/php7.3-fpm.sock;
          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
          include fastcgi_params;
          include snippets/fastcgi-php.conf;
@@ -729,7 +621,7 @@ sudo chmod +x /var/stratum/config/run.sh
         
             location ~ ^/index\.php$ {
                 fastcgi_split_path_info ^(.+\.php)(/.+)$;
-                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+                fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
                 fastcgi_index index.php;
                 include fastcgi_params;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -760,7 +652,7 @@ sudo chmod +x /var/stratum/config/run.sh
          deny all;
    }
       location ~ /phpmyadmin/(.+\.php)$ {
-         fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+         fastcgi_pass unix:/run/php/php7.3-fpm.sock;
          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
          include fastcgi_params;
          include snippets/fastcgi-php.conf;
@@ -771,13 +663,13 @@ sudo chmod +x /var/stratum/config/run.sh
 ' | sudo -E tee /etc/nginx/sites-available/$server_name.conf >/dev/null 2>&1
    fi
    sudo service nginx restart
-   sudo service php7.2-fpm reload
+   sudo service php7.3-fpm reload
    fi
 
     output " "
     output "Now for the database fun!"
     output " "
-    systemctl start mysql
+    service mysql start
     sleep 3
 
     # create database
@@ -991,22 +883,13 @@ sudo chmod -R 775 /var/web/serverconfig.php
 output " "
 output "Now for Install the Startup Scripts take a little expresso and have fun!"
 output " "
-sudo chown root /etc/rc.local
-sudo chmod 755 /etc/rc.local
-chmod +x /etc/rc.local
-sudo systemctl enable rc-local.service
-sudo systemctl start rc-local.service
 cp /var/web/pool /etc/init.d/pool
 chmod +x  /etc/init.d/pool
 sudo update-rc.d pool defaults 95
 apt install lsb-release figlet update-motd landscape-common update-notifier-common
-
-
-
-
-sudo mv $HOME/yiimp/ $HOME/coleganet-install-only-do-not-run-commands-from-this-folder
+sudo mv /home/yiimp/ /home/coleganet-install-only-do-not-run-commands-from-this-folder
 sudo service nginx restart
-sudo service php7.2-fpm reload
+sudo service php7.3-fpm reload
 output "Installing Server Manager Webmin"
 echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
 wget -q -O- http://www.webmin.com/jcameron-key.asc | sudo apt-key add
@@ -1021,13 +904,13 @@ output "Use the command mflush for clean memcached "
 sudo apt-get -y install apache2-utils
 output "Installing Apache Utils You will need for protect Admin folder with a password please read inside scripts folder the document Admin"
  #Restart service
-    sudo systemctl restart cron.service
-    sudo systemctl restart mysql
-    sudo systemctl status mysql | sed -n "1,3p"
-    sudo systemctl restart nginx.service
-    sudo systemctl status nginx | sed -n "1,3p"
-    sudo systemctl restart php7.2-fpm.service
-    sudo systemctl status php7.2-fpm | sed -n "1,3p"
+    sudo service cron restart
+    sudo servicet mysql restart
+    sudo service mysql status | sed -n "1,3p"
+    sudo service nginx restart
+    sudo service nginx status | sed -n "1,3p"
+    sudo service php7.3-fpm restart
+    sudo service php7.3-fpm status | sed -n "1,3p"
 
 
     echo
