@@ -78,6 +78,25 @@ ln -s /etc/nginx/sites-available/subdomain.mydomain.com.conf /etc/nginx/sites-en
 
 Them restart the server
 
+# ProxySQL Internals
+ProxySQL, when started, immediately spawns a new process - the parent process works as an angel process and restarts ProxySQL
+within milliseconds of a crash. If you are familiar with MySQL, this is fairly similar to mysqld_safe. By default, ProxySQL 
+needs two ports: 6033, on which it listens for traffic and 6032, which works as a gateway for managing ProxySQL. The command 
+line admin interface can be accessed by a MySQL client - the majority of the configuration is done using SQL. Even though the 
+underlying database that ProxySQL uses to store its configuration is SQLite, an effort was put into making the experience as 
+close to MySQL as possible. You can use some of the MySQL syntax to check the ProxySQL configuration (SHOW GLOBAL VARIABLES) 
+or set a new one (SET GLOBAL variable_name = value). The backend configuration is stored in tables - all changes are made through
+ SQL: INSERT, UPDATE, DELETE
+For access directly to your database we not use anymore phpmyadmin for security reasons 
+You can simple do us root
+
+service webmin start
+Them you access directly to your database 
+Go or visit in any browser like Firefox to the url
+
+https://mypublicDockerIp:15000 and setup your new mysql password you save
+them you can see directly the Mariadb container and database.
+Remember always stop Webmin after you finished,
 
 
 
