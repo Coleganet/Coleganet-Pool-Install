@@ -7,6 +7,14 @@ The script work with Proxysql and Mariadb to try to be protected by attacks.
 
 I think the script is bug-free but anyone is welcome to help in the development. If you are using a Stalone Ubuntu Server please use the branch in this repository with the tag Ubuntu. Perhaps this script also works but use Supervisor and not Systemctl for start and... any services.
 
+UFW and Fail2ban are not intended to be include in the script because the docker is protected or by your server holding the docker container or just wait the next updates :)
+
+# DEVELOPMENT:
+We need people to upgrade  Yiimp skeleton pool to the version II or perhaps rebuild with Lavarel. If you want to help push a new tag again this repository with your sources
+
+DOcker setup and new ideas are always welcome
+
+
 # FEATURES
 
 - Installation of your choice of cryptocurrency wallets/daemon for mining purpose
@@ -23,8 +31,7 @@ I think the script is bug-free but anyone is welcome to help in the development.
 How Does it Work?
 ----------
 You will be required to get a DOCKER CONTAINERS instance etc or a server that can be obtained from several hosts online or if you have your very own server at your premises that can also be used to setup pool. For detailed minimum specifications and operating system that is usually Ubuntu/Linux,
-Install script for yiimp on Ubuntu Server 16.04 / 18.04 (use Tpruvot's Yiimp)
-USE THIS SCRIPT ON FRESH INSTALL UBUNTU Server 16.04 / 18.04 !
+USE THIS SCRIPT ON FRESH INSTALL UBUNTU Server 20.04 !
 
 Connect on your DOCKER =>
 Coleganet use a new theme and add mysql management inside the administration 
