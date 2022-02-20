@@ -102,7 +102,8 @@ Where is Proxysql configuration you just find like that:
 locate proxysql.cnf
 And is on
 /etc/proxysql.cnf
-More information about ProxyMysql you can find 
+More information about ProxyMysql you can find https://proxysql.com/documentation/installing-proxysql
+or just visit the project on github
 
 Go http://xxx.xxx.xxx.xxx or https://xxx.xxx.xxx.xxx (if you have chosen LetsEncrypt SSL). Enjoy !
 Go http://xxx.xxx.xxx.xxx/AdminPanel or https://xxx.xxx.xxx.xxx/AdminPanel to access Panel Admin
@@ -134,9 +135,8 @@ While I did add some server security to the script, it is every server owners re
 There will be several wallets already in yiimp. These have nothing to do with the installation script and are from the database import from the yiimp github.
 
 
-#### YIIMP SOFTWARE SUPPORTED ALGORITHMS FOR CRYPTOCURRENCY / COINS MINING
 
-#### YIIMP SOFTWARE SUPPORTED ALGORITHMS FOR CRYPTOCURRENCY / COINS MINING
+#### COLEGANET SOFTWARE SUPPORTED ALGORITHMS FOR CRYPTOCURRENCY / COINS MINING
 
   Algos | Algos  | Algos | Algos | Algos  | Algos
 ------------- | ------------- | ------------- | ------------- | ------------- | -------------
