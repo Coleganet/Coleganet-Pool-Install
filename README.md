@@ -1,8 +1,13 @@
-# Coleganet-Install-Mining-Pool-Software UBUNTU 18.04
+# Coleganet-Install-Mining-Pool-Software UBUNTU 20.04
 Install and Build Mining Pool for Any Cryptocurrency Altcoins and Algorithms on Yiimp (Multi Coins/Algo Mining Pool Software)
 ----------------
+After 4 covids and being very weak and always in bed I  rebuilt this script to install yiimp pool in a clean docker container with UBUNTU 20.04
+I take many hours to do because the script has many different configurations and I am just using Sansumg 8 Mobile Phone :(
+The script work with Proxysql and Mariadb to try to be protected by attacks.
 
-We provide altcoin cryptocurrencies mining pool installation and creation services and you just sit back and let us take care of everything from scratch to finish that includes but not limited to 
+I think the script is bug-free but anyone is welcome to help in the development. If you are using a Stalone Ubuntu Server please use the branch in this repository with the tag Ubuntu. Perhaps this script also works but use Supervisor and not Systemctl for start and... any services.
+
+# FEATURES
 
 - Installation of your choice of cryptocurrency wallets/daemon for mining purpose
 - Setting up, configuring, administer and prepare server for yiiimp mining software to enable mining for your choice of coins
@@ -10,10 +15,10 @@ We provide altcoin cryptocurrencies mining pool installation and creation servic
 - You can set any fees of your choice or set zero fees that can always be changed as per your desire
 - You can use your own equipment to mine such as CPUs, GPU rigs, ASIC machines or even pool can be made compatiable for **Nicehash** mining if you want to use their hashpower.
 - It can be multiple coin and multi algorithms mining pool as more coins can be added at any stage provided those algo/coins are are supported by the software and your pool server.
-- We do privide maintence service although not much maintence is needed after pool is setup, if you do not touch any exisitng settings etc.
+- We not provide maintence service although not much maintence is needed after pool is setup, if you do not touch any exisitng settings etc.
 - Configuration, troubleshooting of servers Linux/Ubuntu and existing pools, such as reject blocks, payouts not working, custom difficulty, vardiff, autoexchange, daemon and any other yiimp pool problems we can fix and make your pool running for smooth mining.
 - Optimize and Tweak server and yiimp software for improved performance.
-- Any special features or customization also possible at additional cost.
+- If you need Any special features or customization also possible at additional cost.
 
 How Does it Work?
 ----------
@@ -38,12 +43,31 @@ cd yiimp_install_scrypt/
 bash install.sh (DO NOT RUN THE SCRIPT AS ROOT or SUDO)
 At the end, you MUST REBOOT to finalize installation...
 Finish !
+# Common Errors
+You need to setup A dns records for your domain 48 hours before you setup this script or install the already build containers from Docker.io
+
+In case you have a certificate error use this :
+
+rm /etc/nginx/sites-enabled/mydomain.com.conf
+
+sudo certbot --nginx
+
+them write your domain and certboot will generate a new certificate if you get a new error you have a problem with your dns.
+After that execute: 
+ln -s /etc/nginx/sites-available/subdomain.mydomain.com.conf /etc/nginx/sites-enabled
+
+Them restart the server
+
+
+
+
+
 
 Go http://xxx.xxx.xxx.xxx or https://xxx.xxx.xxx.xxx (if you have chosen LetsEncrypt SSL). Enjoy !
 Go http://xxx.xxx.xxx.xxx/AdminPanel or https://xxx.xxx.xxx.xxx/AdminPanel to access Panel Admin
 If you are issue after installation (nginx,mariadb... not found), use this script : bash install-debug.sh (watch the log during installation)
 
-‼️ Kudaraidee Install Script :
+‼️ Kudaraidee Install Sources :
 Instead Tpruvot's Yiimp, you can use the Kudaraidee's Repo Yiimp : git clone -b Kudaraidee https://github.com/Kudaraidee/yiimp.git
 It's an updated Yiimp, with more algo, some fix....
 ‼️ YOU MUST UPDATE THE FOLLOWING FILES :
