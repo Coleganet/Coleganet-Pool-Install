@@ -44,7 +44,10 @@ git clone https://github.com/Coleganet/Coleganet-Pool-Install.git
 
 cd Coleganet-Pool-Install
 
-bash install.sh
+bash install.sh yourdomain.com
+
+That will start checking if your DNS are correct and if Not Abort
+If you want still continue with a broken installation do bash goinstall.sh
 
 At the end, you MUST REBOOT to finalize installation...
 Finish !
