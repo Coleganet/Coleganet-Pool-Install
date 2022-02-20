@@ -60,9 +60,6 @@ is a good idea them to save your docker with a new tag
 
 
 
-
-
-
 # Common Errors
 You need to setup A dns records for your domain 48 hours before you setup this script or install the already build containers from Docker.io
 
@@ -75,8 +72,13 @@ sudo certbot --nginx
 them write your domain and certboot will generate a new certificate if you get a new error you have a problem with your dns.
 After that execute: 
 ln -s /etc/nginx/sites-available/subdomain.mydomain.com.conf /etc/nginx/sites-enabled
-
 Them restart the server
+
+supervisor error is usually when you change the start in the docker-compose.yml or you add or change any standar configuration inside the container. To see the errors in your hostserver start container with the command: plog
+them you will see exactly what configuration misgivings a error,
+Them stop the container command: stop and make the changes 
+
+
 
 # ProxySQL Internals
 ProxySQL, when started, immediately spawns a new process - the parent process works as an angel process and restarts ProxySQL
