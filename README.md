@@ -49,6 +49,20 @@ bash install.sh
 At the end, you MUST REBOOT to finalize installation...
 Finish !
 
+# Docker
+if you pull the two coleganet containers from docker.io
+remember to execute the command first start that will setup
+new passwords for the applications. You only will need to copy 
+and save the new passwords and change accordingly you Docker-compose.yml
+for all the users match youe new security passwords,
+
+is a good idea them to save your docker with a new tag
+
+
+
+
+
+
 # Common Errors
 You need to setup A dns records for your domain 48 hours before you setup this script or install the already build containers from Docker.io
 
