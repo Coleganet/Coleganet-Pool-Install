@@ -105,6 +105,12 @@ And is on
 More information about ProxyMysql you can find https://proxysql.com/documentation/installing-proxysql
 or just visit the project on github
 
+internal commands inside docker pool
+proxysql start
+proxysql stop
+proxysql restart
+
+# Pool Admin Panel
 Go http://xxx.xxx.xxx.xxx or https://xxx.xxx.xxx.xxx (if you have chosen LetsEncrypt SSL). Enjoy !
 Go http://xxx.xxx.xxx.xxx/AdminPanel or https://xxx.xxx.xxx.xxx/AdminPanel to access Panel Admin
 If you are issue after installation (nginx,mariadb... not found), use this script : bash install-debug.sh (watch the log during installation)
