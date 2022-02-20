@@ -5,8 +5,8 @@
 # Web:      www.coleganet.com
 #
 # Program:
-#   Install Coleganet Pool on Ubuntu 18.04 runnin
-#        Nginx, MariaDB, and php7.x
+#   Install Coleganet Pool on Ubuntu 20.XX runnin
+#        Nginx, MariaDB, php7.2 and ProxySQL 
 # BTC Donation:1K5qZcCT8ZGzLfbR75GWJNXo3MViaZrvq7
 #
 ################################################################################
@@ -47,13 +47,31 @@ displayErr() {
 
 
     # update package and upgrade Ubuntu
-    sudo apt-get -y update 
+    sudo apt-get -y update
     sudo apt-get -y autoremove
 
-    output "Checking and Updating system and installing basic packages."
-    curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash
+    output "Checking and Updating system and installing basic packages.with MariaDb"
+#    curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash
     sudo apt remove --purge mariadb-server mariadb-client mysql-server mysql-client -y
     sudo apt install  mariadb-server mariadb-client
+    #installing ProxySQL
+    output "Making database secure"
+    output "Starting install ProxySQL. Please use proxysql for local or external database"
+    apt-get install -y lsb-release apt-transport-https
+    wget -O - 'https://repo.proxysql.com/ProxySQL/repo_pub_key' | 
+    apt-key add - echo deb https://repo.proxysql.com/ProxySQL/proxysql-2.1.x/$(lsb_release -sc)/ ./ \
+    | tee /etc/apt/sources.list.d/proxysql.list
+    apt-get update
+    apt-get install proxysql
+    output "For install a different version use apt-get install proxysql=version"
+    output "!! Done !! :) "
+
+
+
+
+
+
+
     sudo apt install --assume-yes gcc shc
     output " "
     output "Switching to Aptitude"
@@ -147,7 +165,7 @@ sudo -- bash -c 'echo "mcrypt.so" >>/etc/php/7.3/fpm/php.ini'
 
     sudo aptitude -y install software-properties-common build-essential
     sudo aptitude -y install libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils git cmake zlib1g-dev libz-dev libseccomp-dev libcap-dev libminiupnpc-dev
-  l sudo apt-get install libboost-all-dev
+    sudo apt-get install libboost-all-dev
     sudo aptitude -y install libminiupnpc10 libzmq5
     sudo aptitude -y install libcanberra-gtk-module libqrencode-dev libzmq3-dev
     sudo aptitude -y install libqt5gui5 libqt5core5a libqt5webkit5-dev libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
@@ -353,10 +371,13 @@ sudo chmod +x /var/stratum/config/run.sh
     if [[ ("$ssl_install" == "y" || "$ssl_install" == "Y" || "$ssl_install" == "") ]]; then
 
     output " "
-    output "Install LetsEncrypt and setting SSL"
+    output "Install LetsEncrypt / Certboot  and setting SSL"
     output " "
 
     sudo aptitude -y install letsencrypt
+    sudo apt install certbot python3-certbot-nginx
+
+
     sudo letsencrypt certonly -a webroot --webroot-path=/var/web --email "$EMAIL" --agree-tos -d "$server_name"
     sudo rm /etc/nginx/sites-available/$server_name.conf
     sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
@@ -918,7 +939,7 @@ output "Installing Apache Utils You will need for protect Admin folder with a pa
     sudo supervisorctl restart nginx
     sudo service nginx status | sed -n "1,3p"
     sudo supervisorctl restart php7.3-fpm
-    service php7.3-fpm status | sed -n "1,3p"
+    sudo mysqladmin version
 
     echo
     echo -e "$GREEN Done...$COL_RESET"
