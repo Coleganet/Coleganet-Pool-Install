@@ -66,7 +66,7 @@ is a good idea them to save your docker with a new tag
 # Common Errors
 You need to setup A dns records for your domain 48 hours before you setup this script or install the already build containers from Docker.io
 
-In case you have a certificate error use this :
+In case you have a certificate error use dothis :
 
 rm /etc/nginx/sites-enabled/mydomain.com.conf
 
