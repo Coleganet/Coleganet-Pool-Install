@@ -98,9 +98,11 @@ https://mypublicDockerIp:15000 and setup your new mysql password you save
 them you can see directly the Mariadb container and database.
 Remember always stop Webmin after you finished,
 
-
-
-
+Where is Proxysql configuration you just find like that:
+locate proxysql.cnf
+And is on
+/etc/proxysql.cnf
+More information about ProxyMysql you can find 
 
 Go http://xxx.xxx.xxx.xxx or https://xxx.xxx.xxx.xxx (if you have chosen LetsEncrypt SSL). Enjoy !
 Go http://xxx.xxx.xxx.xxx/AdminPanel or https://xxx.xxx.xxx.xxx/AdminPanel to access Panel Admin
