@@ -1,4 +1,4 @@
-# Coleganet-Install-Mining-Pool-Software UBUNTU 18.04
+# Coleganet-Install-Mining-Pool-Software UBUNTU 18.04 - 20.04
 Install and Build Mining Pool for Any Cryptocurrency Altcoins and Algorithms on Yiimp (Multi Coins/Algo Mining Pool Software)
 ----------------
 
@@ -18,21 +18,21 @@ We provide altcoin cryptocurrencies mining pool installation and creation servic
 How Does it Work?
 ----------
 You will be required to get a VPS or cloud service like AWS instance etc or a server that can be obtained from several hosts online or if you have your very own server at your premises that can also be used to setup pool. For detailed minimum specifications and operating system that is usually Ubuntu/Linux,
-Install script for yiimp on Ubuntu Server 16.04 / 18.04 (use Tpruvot's Yiimp)
-USE THIS SCRIPT ON FRESH INSTALL UBUNTU Server 16.04 / 18.04 !
-
-Connect on your VPS =>
-Coleganet use a new theme and add mysql management inside the administration 
-phpMyEdit-5.7.1.tar.gz
+Install script for yiimp on Ubuntu Server 20.04 / 18.04 (use Tpruvot's Yiimp)
+USE THIS SCRIPT ON FRESH INSTALL UBUNTU Server 20.04 / 18.04 !
+For more strong pool in docker container visit the MAIN branch
+## INSTALL
 
 apt upgrade
-reboot
-adduser pool (pool it's just an example...)
-adduser pool sudo
-su''
+
+sudo su''
+
 sudo apt -y install git
+
 git clone -b ubuntu https://github.com/Coleganet/Coleganet-Pool-Install.git
+
 cd Coleganet/Coleganet-Pool-Install
+
 bash install.sh 
 
 ‼️ Kudaraidee Install Sourcex :
